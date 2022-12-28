@@ -12,6 +12,10 @@
         <NuxtLink v-button :class="navIconClass" to="/">
           <UiIcon>home</UiIcon>
         </NuxtLink>
+
+        <NuxtLink v-button :class="navIconClass" to="/login">
+          <UiIcon>login</UiIcon>
+        </NuxtLink>
       </template>
     </UiTopAppBar>
 
