@@ -6,8 +6,8 @@ Vue.use(BalmUI, {
   $theme: {
     primary: '#00dc82',
     'on-primary': '#F2FDF9',
-    surface: '#F2FDF9',
-    'on-surface': '#001E26',
+    // surface: '#001E26',
+    // 'on-surface': '#F2FDF9',
     background: '#001E26',
     secondary: '#99F1CD',
     'on-secondary': '#F2FDF9',
