@@ -1,6 +1,6 @@
 <template>
-  <form action="#" class="c-login-form" @submit.prevent="doLogin">
-    <UiForm class="o-form" type="|" item-margin-bottom="16">
+  <form action="#" class="c-login" @submit.prevent="doLogin">
+    <UiForm type="|" item-margin-bottom="16">
       <template #default="{ itemClass, subitemClass, actionClass }">
         <UiFormField :class="itemClass">
           <UiTextfield v-model="form.username" input-type="text" outlined>
@@ -39,6 +39,8 @@
         </UiFormField>
       </template>
     </UiForm>
+
+    <slot></slot>
   </form>
 </template>
 
@@ -84,7 +86,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.c-login-form {
+.c-login {
   width: 350px;
   margin: 0 auto;
 
