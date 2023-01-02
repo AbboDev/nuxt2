@@ -70,11 +70,15 @@ export default {
           },
         })
         .then((response: LoginResponse) => {
-          this.$store.dispatch({
-            type: 'account/login',
-            account: response,
-            remember: this.form.remember,
-          })
+          this.$store
+            .dispatch({
+              type: 'account/login',
+              account: response,
+              remember: this.form.remember,
+            })
+            .then(() => {
+              this.$router.push('/profile')
+            })
         })
         .catch((error: Error) => {
           // eslint-disable-next-line no-console
