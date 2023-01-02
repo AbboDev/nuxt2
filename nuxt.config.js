@@ -62,4 +62,6 @@ export default {
       config.resolve.alias.vue = 'vue/dist/vue.common'
     },
   },
+
+  ssr: false,
 }

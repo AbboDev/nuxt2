@@ -9,5 +9,6 @@
 <script lang="ts">
 export default {
   name: 'ProfilePage',
+  middleware: 'onlyLoggedIn',
 }
 </script>

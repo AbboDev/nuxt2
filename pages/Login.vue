@@ -16,5 +16,6 @@
 <script lang="ts">
 export default {
   name: 'LoginPage',
+  middleware: 'onlyGuest',
 }
 </script>
