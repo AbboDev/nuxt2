@@ -20,6 +20,10 @@ export default {
       src: '@/plugins/balm-ui',
       mode: 'client',
     },
+    {
+      src: '@/plugins/nuxtClientInit.ts',
+      mode: 'client',
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
