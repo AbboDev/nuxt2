@@ -1,6 +1,8 @@
 <template>
   <section class="o-page">
-    <NuxtLogo class="o-logo"></NuxtLogo>
+    <div class="o-page__content">
+      <NuxtLogo class="o-logo"></NuxtLogo>
+    </div>
   </section>
 </template>
 
@@ -10,10 +12,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.o-page {
-  padding: 30px;
-}
+<style lang="scss" scoped>
 .o-logo {
   display: block;
   margin: 0 auto;

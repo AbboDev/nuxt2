@@ -12,6 +12,10 @@
         <NuxtLink v-button :class="navIconClass" to="/">
           <UiIcon>home</UiIcon>
         </NuxtLink>
+
+        <NuxtLink v-button :class="navIconClass" to="/login">
+          <UiIcon>login</UiIcon>
+        </NuxtLink>
       </template>
     </UiTopAppBar>
 
@@ -23,26 +27,36 @@
       <UiDivider></UiDivider>
 
       <UiDrawerContent>
-        <UiList light>
-          <UiItem href="https://v2.vuejs.org/" target="_blank"
-            >Vue.js <code>({{ vue }})</code></UiItem
+        <UiNav>
+          <UiNavItem href="https://v2.vuejs.org/" target="_blank"
+            >Vue.js <code>({{ vue }})</code></UiNavItem
           >
-          <UiItem href="https://nuxtjs.org/" target="_blank"
-            >NuxtJs <code>({{ nuxt }})</code></UiItem
+          <UiNavItem href="https://nuxtjs.org/" target="_blank"
+            >NuxtJs <code>({{ nuxt }})</code></UiNavItem
           >
-          <UiItem href="https://v8.material.balmjs.com/" target="_blank"
-            >BalmUI <code>({{ balmUi }})</code></UiItem
+          <UiNavItem href="https://v8.material.balmjs.com/" target="_blank"
+            >BalmUI <code>({{ balmUi }})</code></UiNavItem
+          >
+          <UiNavItem href="https://dummyjson.com/" target="_blank"
+            >dummyJSON</UiNavItem
           >
 
-          <UiItemDivider></UiItemDivider>
+          <UiDivider></UiDivider>
 
-          <UiItem href="/" :active="$nuxt.$route.path === '/'">
+          <NuxtNavItem href="/">
             Home
             <template #after="{ iconClass }">
               <UiIcon :class="iconClass">home</UiIcon>
             </template>
-          </UiItem>
-        </UiList>
+          </NuxtNavItem>
+
+          <NuxtNavItem href="/login">
+            Login
+            <template #after="{ iconClass }">
+              <UiIcon :class="iconClass">login</UiIcon>
+            </template>
+          </NuxtNavItem>
+        </UiNav>
       </UiDrawerContent>
     </UiDrawer>
 
