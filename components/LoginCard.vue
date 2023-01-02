@@ -1,27 +1,19 @@
 <template>
-  <UiCard class="c-login">
-    <UiCardContent class="c-login__primary-action">
-      <div class="c-login__main">
+  <UiCard class="c-account">
+    <UiCardContent class="c-account__primary-action">
+      <div class="c-account__main">
         <UiCardMedia
           square
-          class="c-login__media"
+          class="c-account__media"
           :style="{ backgroundImage: `url('${account.image}')` }"
         ></UiCardMedia>
-        <div class="c-login__info">
-          <h3 class="c-login__info__username">
+        <div class="c-account__info">
+          <h3 class="c-account__info__username">
             {{ account.username }}
           </h3>
 
-          <div class="c-login__info__name">
-            <span>{{ fullName }}</span>
-            <UiIcon
-              v-if="account.gender"
-              :class="[
-                'c-login__info__gender',
-                `c-login__info__gender--${account.gender}`,
-              ]"
-              >{{ account.gender }}</UiIcon
-            >
+          <div class="c-account__info__name">
+            <GenderLabel :gender="account.gender">{{ fullName }}</GenderLabel>
           </div>
         </div>
       </div>
@@ -29,8 +21,8 @@
 
     <UiListDivider></UiListDivider>
 
-    <UiCardActions class="c-login__actions">
-      <UiButton class="c-login__action" @click.prevent="doLogout">
+    <UiCardActions class="c-account__actions">
+      <UiButton class="c-account__action" @click.prevent="doLogout">
         Logout
         <template #after>
           <UiIcon>logout</UiIcon>
@@ -51,14 +43,16 @@ export default {
   },
   methods: {
     doLogout(): void {
-      this.$store.dispatch('account/logout')
+      this.$store.dispatch('account/logout').then(() => {
+        this.$router.push('/login')
+      })
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.c-login {
+.c-account {
   $card: &;
   $card__main: #{$card}__main;
   $card__info: #{$card}__info;
@@ -85,29 +79,6 @@ export default {
     @at-root [dir='rtl'] {
       border-top-left-radius: 0;
       border-top-right-radius: inherit;
-    }
-  }
-
-  #{$card__info} {
-    #{$card__info__gender} {
-      &#{$card__info__gender}--male {
-        color: blue;
-      }
-
-      &#{$card__info__gender}--female {
-        color: red;
-      }
-    }
-
-    #{$card__info__name} {
-      display: flex;
-      align-items: center;
-
-      span {
-        & + #{$card__info__gender} {
-          margin-left: 8px;
-        }
-      }
     }
   }
 
