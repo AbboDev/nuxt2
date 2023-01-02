@@ -1,13 +1,18 @@
 export {}
 
 declare global {
+  enum Gender {
+    MALE = 'male',
+    FEMALE = 'female',
+  }
+
   type Account = {
     id: number
     username: string
     email: string
     firstName: string
     lastName: string
-    gender: string
+    gender: Gender
     image: string
   }
 
