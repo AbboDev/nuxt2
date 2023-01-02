@@ -12,7 +12,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['balm-ui/dist/balm-ui.css', '~/assets/style/reset.scss'],
+  css: ['balm-ui/dist/balm-ui.css', '~/assets/style/app.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
