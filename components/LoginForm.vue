@@ -64,11 +64,7 @@ export default {
       }
 
       this.$axios
-        .$post('https://dummyjson.com/auth/login', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        .$post('https://dummyjson.com/auth/login', data)
         .then((response: LoginResponse) => {
           this.$store
             .dispatch({
