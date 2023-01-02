@@ -13,10 +13,32 @@ declare global {
     firstName: string
     lastName: string
     gender: Gender
-    image: string
   }
+
+  type LoginAccount =
+    | Account
+    | {
+        image: string
+      }
 
   type LoginResponse = Account & {
     token: string
+  }
+
+  type Address = {
+    address: string
+    civic: null | number
+    region: string
+    province: string
+    city: string
+    zip: number
+  }
+
+  type RegisterResponse = Account & {
+    age: number
+    phone: string
+    birthplace: string
+    // birthplace: Address
+    birthDate: string
   }
 }

@@ -58,5 +58,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['balm-ui'],
+    extend(config) {
+      config.resolve.alias.vue = 'vue/dist/vue.common'
+    },
   },
 }
