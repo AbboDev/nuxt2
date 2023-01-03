@@ -6,22 +6,12 @@
       :fixed="false"
       nav-id="main-menu"
     >
-      <template #default> Iliad Test </template>
-
-      <template #toolbar="{ navIconClass }">
-        <NuxtLink v-button :class="navIconClass" to="/">
-          <UiIcon>home</UiIcon>
-        </NuxtLink>
-
-        <NuxtLink v-button :class="navIconClass" to="/login">
-          <UiIcon>login</UiIcon>
-        </NuxtLink>
-      </template>
+      <template #default>{{ title }}</template>
     </UiTopAppBar>
 
     <UiDrawer nav-id="main-menu" type="modal">
       <UiDrawerHeader>
-        <UiDrawerTitle>Iliad Test</UiDrawerTitle>
+        <UiDrawerTitle>{{ title }}</UiDrawerTitle>
       </UiDrawerHeader>
 
       <UiDivider></UiDivider>
@@ -89,23 +79,23 @@ import { version as NuxtVersion } from 'nuxt/package.json'
 export default {
   data() {
     return {
+      title: '',
       vue: VueVersion,
       nuxt: NuxtVersion,
       balmUi: BalmUIVersion,
+    }
+  },
+  head() {
+    return {
+      changed: (info) => {
+        this.title = info.title
+      },
     }
   },
 }
 </script>
 
 <style scoped lang="scss">
-.mdc-top-app-bar {
-  .mdc-button {
-    &:not(.disabled) {
-      color: #fff;
-    }
-  }
-}
-
 .o-footer {
   text-align: center;
 }
