@@ -18,7 +18,7 @@
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --cache",
     "*.{css,scss,sass,html,vue}": "stylelint",
-    "*.**": "prettier --check --ignore-unknown"
+    "*.**": "prettier --fix --ignore-unknown"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
