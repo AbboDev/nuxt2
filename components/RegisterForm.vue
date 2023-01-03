@@ -253,11 +253,7 @@ export default {
       }
 
       this.$axios
-        .$post('https://dummyjson.com/users/add', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        .$post('https://dummyjson.com/users/add', data)
         .then((registrationResponse: CompleteRegisterResponse) => {
           // const account: Account = {
           //   id: registrationResponse.id,
