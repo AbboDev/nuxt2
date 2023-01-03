@@ -130,16 +130,15 @@
 
           <UiGridCell columns="6">
             <UiFormField :class="itemClass">
-              <UiTextfield
+              <UiSelect
                 v-model="shipment.zip"
-                input-type="number"
-                :min="0"
+                :options="zipCodes"
                 outlined
                 required
-                disabled
+                :disabled="zipCodes.length <= 0"
               >
                 CAP
-              </UiTextfield>
+              </UiSelect>
             </UiFormField>
           </UiGridCell>
 
@@ -238,6 +237,28 @@ export default Vue.extend({
         return (state as AccountState).account?.id || null
       },
     }),
+    zipCodes(): string[] | UiSelectValue[] {
+      const currentCity: UiSelectValue | undefined = this.form.cities.find(
+        (city) => city.value === this.shipment.city
+      )
+
+      if (!currentCity) {
+        return []
+      }
+
+      const zipCodes: string[] = currentCity.meta?.cap || []
+
+      if (!zipCodes.length) {
+        return zipCodes
+      }
+
+      return zipCodes.map<UiSelectValue>((zip: string) => {
+        return {
+          value: zip,
+          label: zip
+        }
+      })
+    },
   },
   methods: {
     cleanup(province = false): void {
