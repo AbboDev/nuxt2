@@ -1,21 +1,23 @@
 <template>
   <section class="o-page">
     <div class="o-page__content">
-      <RegisterForm>
+      <LoginForm>
         <UiDivider>o</UiDivider>
 
         <div>
-          Hai già un account?
-          <NuxtLink to="/login">Effettua il login!</NuxtLink>
+          Non sei ancora registrato?
+          <NuxtLink to="/registration">Registrati ora!</NuxtLink>
         </div>
-      </RegisterForm>
+      </LoginForm>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'RegistrationPage',
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'LoginPage',
   middleware: 'onlyGuest',
-}
+})
 </script>

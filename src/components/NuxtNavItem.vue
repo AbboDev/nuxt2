@@ -14,9 +14,10 @@
 
 <script>
 import UiNavItem from 'balm-ui/src/scripts/components/list/nav-item.vue'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   name: 'NuxtNavItem',
   extends: UiNavItem,
-}
+})
 </script>

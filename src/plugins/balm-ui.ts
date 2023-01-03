@@ -2,6 +2,21 @@ import Vue from 'vue'
 import BalmUI from 'balm-ui'
 import BalmUIPlus from 'balm-ui/dist/balm-ui-plus'
 
+type ToastMessage = string
+
+interface ToastOptions {
+  className?: string
+  timeoutMs?: number
+  message: ToastMessage
+  position?: 'bottom' | 'center' | 'top'
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $toast(options: ToastMessage | ToastOptions): Promise<void>
+  }
+}
+
 Vue.use(BalmUI, {
   $theme: {
     primary: '#00dc82',
