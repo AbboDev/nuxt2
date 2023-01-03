@@ -16,5 +16,6 @@
 <script lang="ts">
 export default {
   name: 'RegistrationPage',
+  middleware: 'onlyGuest',
 }
 </script>
