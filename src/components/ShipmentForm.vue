@@ -106,7 +106,7 @@
                 outlined
                 required
                 :disabled="form.provinces.length <= 0"
-                default-label="Provincia"
+                @change="onChangeProvince($event)"
               >
                 Provincia
               </UiSelect>
@@ -115,9 +115,16 @@
 
           <UiGridCell columns="6">
             <UiFormField :class="itemClass">
-              <UiTextfield v-model="shipment.city" outlined required>
+              <UiSelect
+                v-model="shipment.city"
+                :options="form.cities"
+                outlined
+                required
+                :disabled="form.cities.length <= 0"
+                @change="onChangeCity($event)"
+              >
                 Città
-              </UiTextfield>
+              </UiSelect>
             </UiFormField>
           </UiGridCell>
 
@@ -129,6 +136,7 @@
                 :min="0"
                 outlined
                 required
+                disabled
               >
                 CAP
               </UiTextfield>
@@ -140,7 +148,6 @@
               <UiButton native-type="submit" type="raised"
                 >Salva il tuo indirizzo di spedizione
                 <template #after="{ iconClass }">
-                  <!-- Custom SVG -->
                   <UiIcon :class="iconClass">local_shipping</UiIcon>
                 </template></UiButton
               >
@@ -159,7 +166,12 @@ import Vue from 'vue'
 import { mapState } from 'vuex'
 import { AccountState } from '@/store/account'
 
-const PROVINCES: UiSelectValue[][] = [];
+interface UiSelectCity {
+  [key: string]: UiSelectValue[]
+}
+
+const PROVINCES: UiSelectValue[][] = []
+const CITIES: UiSelectCity = {}
 
 export default Vue.extend({
   name: 'ShipmentForm',
@@ -171,6 +183,7 @@ export default Vue.extend({
     const country: string = 'Italia'
     const regions: UiSelectValue[] = []
     const provinces: UiSelectValue[] = []
+    const cities: UiSelectValue[] = []
 
     const { account } = this.$store.state.account as AccountState
 
@@ -188,6 +201,7 @@ export default Vue.extend({
       form: {
         regions,
         provinces,
+        cities,
       },
       shipment: {
         firstName,
@@ -198,8 +212,8 @@ export default Vue.extend({
         address: '',
         apartment: '',
         region: 0,
-        province: 0,
-        city: '',
+        province: '',
+        city: 0,
         zip: '',
       },
     }
@@ -207,9 +221,9 @@ export default Vue.extend({
   async fetch() {
     const regioni = await this.$axios
       .get('http://localhost:3030/regions')
-      .then<Regione[]>(({ data }) => data)
+      .then<Region[]>(({ data }) => data)
 
-    const regions: UiSelectValue[] = regioni.map((regione: Regione) => {
+    const regions: UiSelectValue[] = regioni.map((regione: Region) => {
       return {
         value: regione.id,
         label: regione.nome,
@@ -226,24 +240,37 @@ export default Vue.extend({
     }),
   },
   methods: {
+    cleanup(province = false): void {
+      if (province) {
+        this.form.provinces = []
+        this.shipment.province = ''
+      }
+
+      this.form.cities = []
+      this.shipment.city = 0
+
+      this.shipment.zip = ''
+    },
     async onChangeRegion(value: number): Promise<void> {
       const key: number = value || -1
-      const currentRegion = this.form.regions.find(
+
+      if (key === -1) {
+        return
+      }
+
+      const currentRegion: UiSelectValue | undefined = this.form.regions.find(
         (element) => element.value === key
       )
 
+      this.cleanup(true)
+
       if (!currentRegion) {
-        if (key > -1) {
-          this.$toast({
-            message: 'La regione selezionata non esiste',
-            position: 'center',
-            className: 'is-error',
-            timeoutMs: 3500,
-          })
-        } else {
-          this.form.provinces = []
-          this.shipment.province = 0
-        }
+        this.$toast({
+          message: 'La regione selezionata non esiste',
+          position: 'center',
+          className: 'is-error',
+          timeoutMs: 3500,
+        })
 
         return
       }
@@ -256,15 +283,15 @@ export default Vue.extend({
 
         const province = await this.$axios
           .get(`http://localhost:3030/regions/${key}/provinces`)
-          .then<Provincia[]>(({ data }) => data)
+          .then<Province[]>(({ data }) => data)
 
         if (province.length <= 0) {
           return
         }
 
-        provinces = province.map((provincia: Provincia, index: number): UiSelectValue => {
+        provinces = province.map((provincia: Province): UiSelectValue => {
           return {
-            value: index,
+            value: provincia.sigla,
             label: provincia.nome,
           }
         })
@@ -274,7 +301,88 @@ export default Vue.extend({
 
       this.form.provinces = provinces
 
-      this.shipment.province = provinces.length ? provinces[0].value : 0
+      this.shipment.province = provinces.length
+        ? (provinces[0].value as string)
+        : ''
+    },
+    async onChangeProvince(key: string): Promise<void> {
+      if (!key) {
+        this.cleanup()
+
+        return
+      }
+
+      const currentProvince: UiSelectValue | undefined =
+        this.form.provinces.find((element) => element.value === key)
+      if (!currentProvince) {
+        this.$toast({
+          message: 'La provincia selezionata non esiste',
+          position: 'center',
+          className: 'is-error',
+          timeoutMs: 3500,
+        })
+
+        return
+      }
+
+      let cities: UiSelectValue[] | null = CITIES[key]
+      if (!cities || cities.length === 0) {
+        const rawCities = await this.$axios
+          .get(`http://localhost:3030/cities/?sigla=${key}`)
+          .then<City[]>(({ data }) => data)
+
+        if (rawCities.length <= 0) {
+          return
+        }
+
+        cities = rawCities.map((city: City): UiSelectValue => {
+          return {
+            value: city.codice,
+            label: city.nome,
+            meta: {
+              cap: city.cap,
+            },
+          }
+        })
+
+        CITIES[key] = cities
+      }
+
+      this.form.cities = cities
+
+      if (!cities.length) {
+        this.$toast({
+          message: 'Nessuna città trovata per la provincia selezionata',
+          position: 'center',
+          className: 'is-error',
+          timeoutMs: 3500,
+        })
+        this.shipment.city = 0
+
+        return
+      }
+
+      const currentCity: UiSelectValue = cities[0]
+      this.shipment.city = currentCity.value as number
+      this.shipment.zip = currentCity.meta?.cap[0]
+    },
+    onChangeCity(cityCode: string): void {
+      const currentCity: UiSelectValue | undefined = this.form.cities.find(
+        (city) => city.value === cityCode
+      )
+
+      if (!currentCity) {
+        this.$toast({
+          message: 'La città selezionata non esiste',
+          position: 'center',
+          className: 'is-error',
+          timeoutMs: 3500,
+        })
+
+        return
+      }
+
+      this.shipment.zip = currentCity.meta?.cap[0]
     },
     createShipmentAddress(): void {
       const data = this.shipment

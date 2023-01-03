@@ -96,20 +96,36 @@ declare global {
   }
 
   type UiSelectValue = {
-    value: number
+    value: number | string
     label: string
+    meta?: Record<string, any>
   }
 
-  type Regione = {
+  type Region = {
     id: number
     nome: string
     latitudine: number
     longitudine: number
   }
 
-  type Provincia = {
+  type Province = {
     nome: string
     sigla: string
     regionId: number
+  }
+
+  type ItalyIdentifier = {
+    nome: string
+    codice: string
+  }
+
+  type City = ItalyIdentifier & {
+    zona: ItalyIdentifier
+    regione: ItalyIdentifier
+    provincia: ItalyIdentifier
+    sigla: string
+    codiceCatastale: string
+    cap: string[]
+    popolazione: number
   }
 }
