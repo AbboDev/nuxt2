@@ -78,4 +78,13 @@ export default {
       poll: 1000,
     },
   },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '/add-shipment',
+        component: resolve(__dirname, 'src/pages/AddShipment.vue'),
+      })
+    },
+  },
 }

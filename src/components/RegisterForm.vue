@@ -256,7 +256,7 @@ export default Vue.extend({
 
       this.$axios
         .$post('https://dummyjson.com/users/add', data)
-        .then((registrationResponse: CompleteRegisterResponse) => {
+        .then((registrationResponse: UserResponse) => {
           // const account: Account = {
           //   id: registrationResponse.id,
           //   username: registrationResponse.username,

@@ -40,6 +40,7 @@
             </template>
           </NuxtNavItem>
 
+          <template v-if="!isLoggedIn">
           <NuxtNavItem href="/login">
             Effettua il Login
             <template #after="{ iconClass }">
@@ -53,6 +54,15 @@
               <UiIcon :class="iconClass">person_add</UiIcon>
             </template>
           </NuxtNavItem>
+          </template>
+          <template v-else>
+            <NuxtNavItem href="/add-shipment">
+              Aggiungi un indirizzo di spedizione
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">local_shipping</UiIcon>
+              </template>
+            </NuxtNavItem>
+          </template>
         </UiNav>
       </UiDrawerContent>
     </UiDrawer>

@@ -72,7 +72,7 @@ declare global {
     birthDate: string
   }
 
-  type CompleteRegisterResponse = LoginAccount & {
+  type UserResponse = LoginAccount & {
     maidenName: string
     age: null | number
     phone: string
@@ -93,5 +93,10 @@ declare global {
     ein: string
     ssn: string
     userAgent: string
+  }
+
+  type UiSelectValue = {
+    value: number
+    label: string
   }
 }
