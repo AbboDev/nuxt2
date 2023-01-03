@@ -128,4 +128,13 @@ declare global {
     cap: string[]
     popolazione: number
   }
+
+  type Post = {
+    id: number
+    title: string
+    body: string
+    userId: number
+    tags?: string[]
+    reactions: number
+  }
 }
