@@ -99,4 +99,17 @@ declare global {
     value: number
     label: string
   }
+
+  type Regione = {
+    id: number
+    nome: string
+    latitudine: number
+    longitudine: number
+  }
+
+  type Provincia = {
+    nome: string
+    sigla: string
+    regionId: number
+  }
 }

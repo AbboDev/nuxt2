@@ -159,35 +159,7 @@ import Vue from 'vue'
 import { mapState } from 'vuex'
 import { AccountState } from '@/store/account'
 
-const PROVINCES: UiSelectValue[][] = [
-  [],
-  [
-    {
-      value: 11,
-      label: 'Haiding',
-    },
-    {
-      value: 12,
-      label: 'Chaoyang',
-    },
-  ],
-  [
-    {
-      value: 21,
-      label: 'Huangpu',
-    },
-    {
-      value: 22,
-      label: 'Xuhui',
-    },
-  ],
-  [
-    {
-      value: 31,
-      label: 'Guangzhou',
-    },
-  ],
-]
+const PROVINCES: UiSelectValue[][] = [];
 
 export default Vue.extend({
   name: 'ShipmentForm',
@@ -197,6 +169,7 @@ export default Vue.extend({
     let lastName: string = ''
 
     const country: string = 'Italia'
+    const regions: UiSelectValue[] = []
     const provinces: UiSelectValue[] = []
 
     const { account } = this.$store.state.account as AccountState
@@ -213,20 +186,7 @@ export default Vue.extend({
         '--mdc-layout-grid-margin-mobile': 0,
       },
       form: {
-        regions: [
-          {
-            value: 1,
-            label: 'Beijing',
-          },
-          {
-            value: 2,
-            label: 'Shanghai',
-          },
-          {
-            value: 3,
-            label: 'Guangzhou',
-          },
-        ],
+        regions,
         provinces,
       },
       shipment: {
@@ -244,6 +204,20 @@ export default Vue.extend({
       },
     }
   },
+  async fetch() {
+    const regioni = await this.$axios
+      .get('http://localhost:3030/regions')
+      .then<Regione[]>(({ data }) => data)
+
+    const regions: UiSelectValue[] = regioni.map((regione: Regione) => {
+      return {
+        value: regione.id,
+        label: regione.nome,
+      }
+    })
+
+    this.form.regions = regions
+  },
   computed: {
     ...mapState('account', {
       accountId: (state: any): number | null => {
@@ -252,7 +226,7 @@ export default Vue.extend({
     }),
   },
   methods: {
-    onChangeRegion(value: number): void {
+    async onChangeRegion(value: number): Promise<void> {
       const key: number = value || -1
       const currentRegion = this.form.regions.find(
         (element) => element.value === key
@@ -274,9 +248,28 @@ export default Vue.extend({
         return
       }
 
-      const provinces = key > -1 ? PROVINCES[key] : []
+      let provinces: UiSelectValue[] | null = key > -1 ? PROVINCES[key] : null
       if (!provinces) {
-        return
+        if (key <= -1) {
+          return
+        }
+
+        const province = await this.$axios
+          .get(`http://localhost:3030/regions/${key}/provinces`)
+          .then<Provincia[]>(({ data }) => data)
+
+        if (province.length <= 0) {
+          return
+        }
+
+        provinces = province.map((provincia: Provincia, index: number): UiSelectValue => {
+          return {
+            value: index,
+            label: provincia.nome,
+          }
+        })
+
+        PROVINCES[key] = provinces
       }
 
       this.form.provinces = provinces
