@@ -1,0 +1,30 @@
+# non è necessario per il progetto, serve giusto come base
+version: '3.7'
+
+services:
+  nuxt-app:
+    build:
+      # context: ./nuxt-app
+      dockerfile: ./docker/build/Dockerfile
+    container_name: nuxt-app
+    restart: always
+    ports:
+      - '3000:3000'
+    command: 'npm run start'
+    networks:
+      - nuxt-network
+  nuxt-dev:
+    build:
+      # context: ./nuxt-app
+      dockerfile: ./docker/dev/Dockerfile
+    container_name: nuxt-dev
+    restart: always
+    ports:
+      - '3000:3000'
+    command: 'npm run dev'
+    networks:
+      - nuxt-network
+
+networks:
+  nuxt-network:
+    driver: bridge
