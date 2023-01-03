@@ -47,6 +47,12 @@
                 <UiIcon :class="iconClass">local_shipping</UiIcon>
               </template>
             </NuxtNavItem>
+            <NuxtNavItem href="/posts">
+              Vedi gli ultimi articoli
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">feed</UiIcon>
+              </template>
+            </NuxtNavItem>
           </template>
 
           <UiDivider></UiDivider>
@@ -96,9 +102,6 @@ export default Vue.extend({
       balmUi: BalmUIVersion,
     }
   },
-  computed: {
-    ...mapGetters('account', ['isLoggedIn'])
-  },
   head() {
     return {
       changed: (info) => {
@@ -107,6 +110,9 @@ export default Vue.extend({
         }
       },
     }
+  },
+  computed: {
+    ...mapGetters('account', ['isLoggedIn']),
   },
 })
 </script>
