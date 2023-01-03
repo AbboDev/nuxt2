@@ -1,0 +1,19 @@
+@import 'reset';
+
+:root {
+  --success: #00c675;
+}
+
+@import 'page';
+
+.mdc-snackbar {
+  #{&}__surface {
+    @at-root .is-error#{&} {
+      background-color: var(--mdc-theme-error, #333);
+    }
+
+    @at-root .is-success#{&} {
+      background-color: var(--success, #333);
+    }
+  }
+}

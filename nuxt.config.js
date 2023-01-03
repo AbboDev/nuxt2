@@ -1,26 +1,32 @@
 export default {
+  srcDir: 'src/',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'iliad-interview',
+    title: 'Test tecnico - Iliad',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'balm-ui/dist/balm-ui.css'
-  ],
+  css: ['balm-ui/dist/balm-ui.css', '~/assets/style/app.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/balm-ui'
+    '~/plugins/axios',
+    {
+      src: '@/plugins/balm-ui',
+      mode: 'client',
+    },
+    {
+      src: '@/plugins/nuxtClientInit',
+      mode: 'client',
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -28,6 +34,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/style-resources',
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
@@ -51,11 +58,24 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
-    }
+      lang: 'en',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    transpile: ['balm-ui'],
+    extend(config) {
+      config.resolve.alias.vue = 'vue/dist/vue.common'
+    },
+  },
+
+  ssr: false,
+
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+      poll: 1000,
+    },
+  },
 }

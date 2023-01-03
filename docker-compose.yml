@@ -1,0 +1,35 @@
+services:
+  nuxt-app:
+    build:
+      dockerfile: ./.docker/build/Dockerfile
+    container_name: nuxt-app
+    restart: always
+    ports:
+      - '80:3000'
+    command: 'npm run start'
+    networks:
+      - nuxt-network
+  nuxt-dev:
+    build:
+      dockerfile: ./.docker/dev/Dockerfile
+    container_name: nuxt-dev
+    restart: always
+    ports:
+      - '3000:3000'
+    command: 'npm run dev'
+    networks:
+      - nuxt-network
+    volumes:
+      - ./src:/app/src
+      - ./test:/app/test
+      - ./types:/app/types
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./nuxt.config.js:/app/nuxt.config.js
+      - exclude:/app/node_modules/
+
+networks:
+  nuxt-network:
+    driver: bridge
+
+volumes:
+  exclude:
