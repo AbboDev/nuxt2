@@ -134,7 +134,12 @@
 
           <UiGridCell columns="12">
             <UiFormField :class="itemClass">
-              <UiTextfield v-model="account.phone" input-type="tel" outlined>
+              <UiTextfield
+                v-model="account.phone"
+                input-type="tel"
+                outlined
+                pattern="[0-9.-\s]{9,}"
+              >
                 Telefono
               </UiTextfield>
             </UiFormField>
@@ -253,14 +258,26 @@ export default {
             'Content-Type': 'application/json',
           },
         })
-        .then((response: RegisterResponse) => {
-          // this.$store.dispatch({
-          //   type: 'account/login',
-          //   account: response,
-          //   remember: this.remember,
-          // })
+        .then((registrationResponse: CompleteRegisterResponse) => {
+          // const account: Account = {
+          //   id: registrationResponse.id,
+          //   username: registrationResponse.username,
+          //   email: registrationResponse.email,
+          //   firstName: registrationResponse.firstName,
+          //   lastName: registrationResponse.lastName,
+          //   gender: registrationResponse.gender,
+          //   // phone: registrationResponse.phone,
+          //   // birthDate: registrationResponse.birthDate,
+          //   // // NOTE: le fake API non ritornano il seguente campo
+          //   // birthplace: this.account.birthplace
+          // }
 
-          console.debug(response)
+          const { password, username } = registrationResponse
+
+          const data = {
+            password,
+            username,
+          }
 
           this.$toast({
             message: 'Registrazione avvenuta con successo!',
@@ -268,6 +285,33 @@ export default {
             className: 'is-success',
             timeoutMs: 3500,
           })
+
+          this.$axios
+            .$post('https://dummyjson.com/auth/login', data, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then((response: LoginResponse) => {
+              this.$store.dispatch({
+                type: 'account/login',
+                account: response,
+                remember: this.form.remember,
+              })
+            })
+            .catch((error: Error) => {
+              // NOTE: si finirà sempre in questo caso perché le fake API non effettuano la registrazione
+              // eslint-disable-next-line no-console
+              console.error(error)
+
+              this.$toast({
+                message:
+                  'È avvenuto un errore mentre veniva fatto il login. Si prega di riprovare',
+                position: 'center',
+                className: 'is-error',
+                timeoutMs: 3500,
+              })
+            })
         })
         .catch((error: Error) => {
           // eslint-disable-next-line no-console

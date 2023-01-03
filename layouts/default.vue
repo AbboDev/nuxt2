@@ -51,9 +51,16 @@
           </NuxtNavItem>
 
           <NuxtNavItem href="/login">
-            Login
+            Effettua il Login
             <template #after="{ iconClass }">
               <UiIcon :class="iconClass">login</UiIcon>
+            </template>
+          </NuxtNavItem>
+
+          <NuxtNavItem href="/registration">
+            Registrati ora!
+            <template #after="{ iconClass }">
+              <UiIcon :class="iconClass">person_add</UiIcon>
             </template>
           </NuxtNavItem>
         </UiNav>
