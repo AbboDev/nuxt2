@@ -8,7 +8,9 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'GenderLabel',
   props: {
     gender: {
@@ -16,7 +18,7 @@ export default {
       type: String,
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

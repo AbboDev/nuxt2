@@ -16,13 +16,13 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios.ts',
+    '~/plugins/axios',
     {
       src: '@/plugins/balm-ui',
       mode: 'client',
     },
     {
-      src: '@/plugins/nuxtClientInit.ts',
+      src: '@/plugins/nuxtClientInit',
       mode: 'client',
     },
   ],

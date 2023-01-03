@@ -72,11 +72,11 @@
 </template>
 
 <script lang="ts">
-import { version as VueVersion } from 'vue'
+import Vue, { version as VueVersion } from 'vue'
 import { version as BalmUIVersion } from 'balm-ui'
 import { version as NuxtVersion } from 'nuxt/package.json'
 
-export default {
+export default Vue.extend({
   data() {
     return {
       title: '',
@@ -88,11 +88,13 @@ export default {
   head() {
     return {
       changed: (info) => {
-        this.title = info.title
+        if (info.title) {
+          this.title = info.title
+        }
       },
     }
   },
-}
+})
 </script>
 
 <style scoped lang="scss">
