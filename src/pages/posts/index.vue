@@ -2,7 +2,7 @@
   <section>
     <h1>Tutti i post</h1>
 
-    {{ selectedRows }}
+    <UiButton @click="onPage(page + 1)">Next</UiButton>
 
     <UiTable
       v-model="selectedRows"
@@ -141,7 +141,12 @@ export default Vue.extend({
     this.limit = limit
   },
   watch: {
-    '$route.query': '$fetch',
+    '$route.query': function (query) {
+      if (query?.page && query.page !== this.page) {
+        this.page = parseInt(query.page)
+        this.$fetch()
+      }
+    },
   },
   methods: {
     getReactionIcon(count: number): string {
@@ -157,7 +162,10 @@ export default Vue.extend({
       return reactions[count];
     },
     onPage(page: number): void {
-      this.$router.push({ path: this.$route.path, query: { page: page.toString() } })
+      this.$router.push({
+        path: this.$route.path,
+        query: { page: page.toString() },
+      })
     },
     deletePost(post: Post): void {
       console.debug(post)
