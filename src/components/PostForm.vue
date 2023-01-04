@@ -202,9 +202,8 @@ export default Vue.extend({
         data
       })
         .then((raw) => raw.data)
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          console.debug(response)
+        .then((response: Post) => {
+          this.$emit('saved', response)
         })
         .catch((error: Error) => {
           // eslint-disable-next-line no-console
