@@ -128,4 +128,20 @@ declare global {
     cap: string[]
     popolazione: number
   }
+
+  type Post = {
+    id: number
+    title: string
+    body: string
+    userId: number
+    tags?: string[]
+    reactions: number
+  }
+
+  type PostsPagination = {
+    posts: Post[]
+    total: number
+    skip: number
+    limit: number
+  }
 }
