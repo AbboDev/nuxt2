@@ -41,6 +41,12 @@
             </NuxtNavItem>
           </template>
           <template v-else>
+            <NuxtNavItem href="/profile">
+              Vedi il tuo profilo
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">perm_identity</UiIcon>
+              </template>
+            </NuxtNavItem>
             <NuxtNavItem href="/add-shipment">
               Aggiungi un indirizzo di spedizione
               <template #after="{ iconClass }">
@@ -51,6 +57,12 @@
               Vedi gli ultimi articoli
               <template #after="{ iconClass }">
                 <UiIcon :class="iconClass">feed</UiIcon>
+              </template>
+            </NuxtNavItem>
+            <NuxtNavItem href="/posts/new">
+              Crea un articolo
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">library_add</UiIcon>
               </template>
             </NuxtNavItem>
           </template>
