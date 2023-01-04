@@ -33,11 +33,15 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .o-home-button {
   .mdc-button__label {
     display: flex;
     align-items: center;
+
+    .material-icons {
+      margin-left: 8px;
+    }
   }
 }
 </style>

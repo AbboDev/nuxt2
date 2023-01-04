@@ -181,7 +181,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'RegisterForm',
@@ -237,9 +237,7 @@ export default Vue.extend({
       if (data.password !== this.form.repeatPassword) {
         this.$toast({
           message: 'Password invalida',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         return
       }
@@ -247,9 +245,7 @@ export default Vue.extend({
       if (!data.birthDate) {
         this.$toast({
           message: 'La data di nascita è obbligatoria',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         return
       }
@@ -279,9 +275,7 @@ export default Vue.extend({
 
           this.$toast({
             message: 'Registrazione avvenuta con successo!',
-            position: 'center',
             className: 'is-success',
-            timeoutMs: 3500,
           })
 
           this.$axios
@@ -305,9 +299,7 @@ export default Vue.extend({
               this.$toast({
                 message:
                   'È avvenuto un errore mentre veniva fatto il login. Si prega di riprovare',
-                position: 'center',
                 className: 'is-error',
-                timeoutMs: 3500,
               })
             })
         })
@@ -318,9 +310,7 @@ export default Vue.extend({
           this.$toast({
             message:
               'È avvenuto un errore durante la registrazione. Si prega di riprovare',
-            position: 'center',
             className: 'is-error',
-            timeoutMs: 3500,
           })
         })
     },

@@ -255,7 +255,7 @@ export default Vue.extend({
       return zipCodes.map<UiSelectValue>((zip: string) => {
         return {
           value: zip,
-          label: zip
+          label: zip,
         }
       })
     },
@@ -288,9 +288,7 @@ export default Vue.extend({
       if (!currentRegion) {
         this.$toast({
           message: 'La regione selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -338,9 +336,7 @@ export default Vue.extend({
       if (!currentProvince) {
         this.$toast({
           message: 'La provincia selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -374,9 +370,7 @@ export default Vue.extend({
       if (!cities.length) {
         this.$toast({
           message: 'Nessuna città trovata per la provincia selezionata',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         this.shipment.city = 0
 
@@ -395,9 +389,7 @@ export default Vue.extend({
       if (!currentCity) {
         this.$toast({
           message: 'La città selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -412,9 +404,7 @@ export default Vue.extend({
         this.$toast({
           message:
             'Credenziali non valide. Si prega di effettuare nuovamente il login',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -423,13 +413,12 @@ export default Vue.extend({
       this.$axios
         .$put(`https://dummyjson.com/users/${this.accountId}`, data)
         .then((registrationResponse: UserResponse) => {
+          // eslint-disable-next-line no-console
           console.debug(registrationResponse)
 
           this.$toast({
             message: 'Registrazione avvenuta con successo!',
-            position: 'center',
             className: 'is-success',
-            timeoutMs: 3500,
           })
         })
         .catch((error: Error) => {
@@ -439,9 +428,7 @@ export default Vue.extend({
           this.$toast({
             message:
               'È avvenuto un errore durante la registrazione. Si prega di riprovare',
-            position: 'center',
             className: 'is-error',
-            timeoutMs: 3500,
           })
         })
     },

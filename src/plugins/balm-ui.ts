@@ -27,5 +27,9 @@ Vue.use(BalmUI, {
     secondary: '#99F1CD',
     'on-secondary': '#F2FDF9',
   },
+  $toast: {
+    position: 'center',
+    timeoutMs: 3500,
+  },
 })
 Vue.use(BalmUIPlus)

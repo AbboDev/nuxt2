@@ -160,8 +160,6 @@ export default Vue.extend({
           this.$toast({
             message: 'Tag già presente',
             className: 'is-error',
-            timeoutMs: 3500,
-            position: 'center',
           })
           return
         }
