@@ -29,15 +29,9 @@
       </template>
 
       <template #reactions="{ data: post }">
-        <span v-if="post.reactions" v-badge.overlap="post.reactions">{{
-          getRandomReaction()
+        <span v-badge.overlap="post.reactions">{{
+          getReactionIcon(post.reactions)
         }}</span>
-        <span
-          v-else
-          v-tooltip="'Ancora nessuna reazione'"
-          aria-describedby="reactions"
-          >🤐</span
-        >
       </template>
 
       <template #actions="{ data: post }">
@@ -150,10 +144,17 @@ export default Vue.extend({
     '$route.query': '$fetch',
   },
   methods: {
-    getRandomReaction(): string {
-      const reactions = ['💖', '🤣', '👀', '👍', '👎', '🤔', '😠', '🤩']
+    getReactionIcon(count: number): string {
+      const reactions = ['🤐', '💩', '😠', '👎', '🤔', '👀', '👍', '🤣', '🤩', '💖']
+      // return reactions[Math.floor(Math.random() * reactions.length)]
 
-      return reactions[Math.floor(Math.random() * reactions.length)]
+      if (count >= reactions.length) {
+        count = reactions.length - 1
+      } else if (count < 0) {
+        count = 0
+      }
+
+      return reactions[count];
     },
     onPage(page: number): void {
       this.$router.push({ path: this.$route.path, query: { page: page.toString() } })
