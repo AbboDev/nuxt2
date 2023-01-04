@@ -272,10 +272,9 @@ export default Vue.extend({
         this.deletePost(post)
       })
     },
-    deletePost(post: Post): Promise<void> {
-      return this.$axios
-        .$delete(`https://dummyjson.com/posts/${post.id}`)
-        .then(() => {
+    async deletePost(post: Post): Promise<void> {
+      try {
+        await this.$axios.$delete(`https://dummyjson.com/posts/${post.id}`)
         this.$toast({
           message: 'Post eliminato con successo!',
           className: 'is-success',
@@ -293,8 +292,7 @@ export default Vue.extend({
         if (index > -1) {
           this.selectedRows.splice(index, 1)
         }
-        })
-        .catch((error: Error) => {
+      } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
         this.$toast({
@@ -302,7 +300,7 @@ export default Vue.extend({
             "È avvenuto un errore durante l'eliminazione del post. Riprova",
           className: 'is-error',
         })
-        })
+      }
     },
   },
 })
