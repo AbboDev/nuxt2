@@ -96,9 +96,6 @@ export default Vue.extend({
       balmUi: BalmUIVersion,
     }
   },
-  computed: {
-    ...mapGetters('account', ['isLoggedIn']),
-  },
   head() {
     return {
       changed: (info) => {
@@ -107,6 +104,9 @@ export default Vue.extend({
         }
       },
     }
+  },
+  computed: {
+    ...mapGetters('account', ['isLoggedIn']),
   },
 })
 </script>

@@ -423,6 +423,7 @@ export default Vue.extend({
       this.$axios
         .$put(`https://dummyjson.com/users/${this.accountId}`, data)
         .then((registrationResponse: UserResponse) => {
+          // eslint-disable-next-line no-console
           console.debug(registrationResponse)
 
           this.$toast({
