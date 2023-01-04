@@ -4,6 +4,7 @@
     <NuxtLink v-button.outlined :to="`/posts/${post.id}`"
       >Visualizza post</NuxtLink
     >
+    <UiButton outlined @click="deletePost">Elimina post</UiButton>
 
     <h1>Modifica post #{{ post.id }}</h1>
 

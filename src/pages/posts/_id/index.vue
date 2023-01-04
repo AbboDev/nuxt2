@@ -4,13 +4,14 @@
     <NuxtLink v-button.outlined :to="`/posts/${post.id}/edit`"
       >Modifica post</NuxtLink
     >
+    <UiButton outlined @click="deletePost">Elimina post</UiButton>
 
     <h1 class="c-post__title">{{ post.title }}</h1>
 
     <div class="c-post__body">
-      <div class="c-post__user"
-        >Scritto dall'utente #{{ post.userId }}<UiIcon>face</UiIcon></div
-      >
+      <div class="c-post__user">
+        Scritto dall'utente #{{ post.userId }}<UiIcon>face</UiIcon>
+      </div>
 
       <p>{{ post.body }}</p>
 
@@ -60,6 +61,27 @@ export default Vue.extend({
 
       return reactions[Math.floor(Math.random() * reactions.length)]
     },
+    deletePost(): void {
+      this.$axios
+        .$delete(`https://dummyjson.com/posts/${this.post.id}`)
+        .then(() => {
+          this.$toast({
+            message: 'Post eliminato con successo!',
+            className: 'is-success',
+          })
+
+          this.$router.push('/posts')
+        })
+        .catch((error: Error) => {
+          // eslint-disable-next-line no-console
+          console.error(error)
+          this.$toast({
+            message:
+              "È avvenuto un errore durante l'eliminazione del post. Riprova",
+            className: 'is-error',
+          })
+        })
+    }
   },
 })
 </script>
