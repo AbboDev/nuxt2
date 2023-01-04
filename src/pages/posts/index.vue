@@ -15,11 +15,11 @@
     >
       <template #th-tags>
         Tags
-        <UiIcon>style</UiIcon>
+        <UiIcon :style="{ marginLeft: '8px' }">style</UiIcon>
       </template>
 
       <template #th-user>
-        <UiIcon v-tooltip="'Utente'" aria-describedby="th-user"> face </UiIcon>
+        <UiIcon v-tooltip="'Utente'" aria-describedby="th-user">face</UiIcon>
       </template>
 
       <template #th-reactions>
@@ -40,7 +40,7 @@
           icon="description"
         ></NuxtIconButton>
         <NuxtIconButton
-          :href="`/posts/${post.id}`"
+          :href="`/posts/${post.id}/edit`"
           icon="edit"
         ></NuxtIconButton>
         <UiIconButton
@@ -150,7 +150,18 @@ export default Vue.extend({
   },
   methods: {
     getReactionIcon(count: number): string {
-      const reactions = ['🤐', '💩', '😠', '👎', '🤔', '👀', '👍', '🤣', '🤩', '💖']
+      const reactions = [
+        '🤐',
+        '💩',
+        '😠',
+        '👎',
+        '🤔',
+        '👀',
+        '👍',
+        '🤣',
+        '🤩',
+        '💖',
+      ]
       // return reactions[Math.floor(Math.random() * reactions.length)]
 
       if (count >= reactions.length) {
@@ -159,7 +170,7 @@ export default Vue.extend({
         count = 0
       }
 
-      return reactions[count];
+      return reactions[count]
     },
     onPage(page: number): void {
       this.$router.push({
