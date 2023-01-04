@@ -2,7 +2,13 @@
   <section>
     <h1>Tutti i post</h1>
 
-    <UiButton @click="onPage(page + 1)">Next</UiButton>
+    <UiButton
+      :disabled="selectedRows.length === 0"
+      raised
+      :style="{ marginBottom: '16px' }"
+      @click="deletePosts"
+      >Elimina selezionati</UiButton
+    >
 
     <UiTable
       v-model="selectedRows"
@@ -53,7 +59,7 @@
         v-if="total > 1"
         v-model="page"
         :total="total"
-        :page-size="currentLimit"
+        :page-size="currentLimit || 1"
         show-total
         @change="onPage"
       ></UiPagination>
@@ -124,7 +130,7 @@ export default Vue.extend({
           class: 'is-actions',
         },
       ],
-      selectedRows: [],
+      selectedRows: [] as number[],
       page: page ? parseInt(page as string) : 1,
       currentLimit: limit,
       limit,
@@ -182,8 +188,21 @@ export default Vue.extend({
         query: { page: page.toString() },
       })
     },
-    deletePost(post: Post): void {
-      this.$axios
+    deletePosts(): void {
+      if (this.selectedRows.length === 0) {
+        return
+      }
+
+      const selectedPosts: Post[] = this.posts.filter((post) =>
+        this.selectedRows.includes(post.id)
+      )
+
+      selectedPosts.forEach((post) => {
+        this.deletePost(post)
+      })
+    },
+    deletePost(post: Post): Promise<void> {
+      return this.$axios
         .$delete(`https://dummyjson.com/posts/${post.id}`)
         .then(() => {
           this.$toast({
@@ -191,11 +210,17 @@ export default Vue.extend({
             className: 'is-success',
           })
 
-          const index: number = this.posts.indexOf(post)
-          if (index > -1) {
-            this.posts.splice(index, 1)
+          const postIndex: number = this.posts.indexOf(post)
+          if (postIndex > -1) {
+            this.posts.splice(postIndex, 1)
 
             --this.currentLimit
+            --this.total
+          }
+
+          const index = this.selectedRows.indexOf(post.id)
+          if (index > -1) {
+            this.selectedRows.splice(index, 1)
           }
         })
         .catch((error: Error) => {
