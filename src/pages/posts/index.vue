@@ -44,37 +44,16 @@
       >
     </div>
 
-    <UiTable
-      v-model="selectedRows"
-      fullwidth
-      :data="posts"
-      :thead="thead"
-      :tbody="tbody"
-      row-checkbox
-      selected-key="id"
+    <PostsTable
+      :posts="posts"
+      :selected-rows="selectedRows"
+      :current-limit="currentLimit"
+      :limit="limit"
+      :total="total"
+      @selected="onSelectedRows"
+      @page-change="onPageChange"
     >
-      <template #th-tags>
-        Tags
-        <UiIcon :style="{ marginLeft: '8px' }">style</UiIcon>
-      </template>
-
-      <template #th-user>
-        <UiIcon v-tooltip="'Utente'" aria-describedby="th-user">face</UiIcon>
-      </template>
-
-      <template #th-reactions>
-        <UiIcon v-tooltip="'Reazioni ricevute'" aria-describedby="th-reactions">
-          add_reaction
-        </UiIcon>
-      </template>
-
-      <template #reactions="{ data: post }">
-        <span v-badge.overlap="post.reactions">{{
-          getReactionIcon(post.reactions)
-        }}</span>
-      </template>
-
-      <template #actions="{ data: post }">
+      <template #actions="{ post }">
         <NuxtIconButton
           :href="`/posts/${post.id}`"
           icon="description"
@@ -88,16 +67,7 @@
           @click.prevent="deletePost(post)"
         ></UiIconButton>
       </template>
-
-      <UiPagination
-        v-if="total > 1"
-        v-model="page"
-        :total="total"
-        :page-size="currentLimit || 1"
-        show-total
-        @change="onPage"
-      ></UiPagination>
-    </UiTable>
+    </PostsTable>
   </section>
 </template>
 
@@ -140,62 +110,11 @@ export default Vue.extend({
 
     return {
       posts: [] as Post[],
-      thead: [
-        {
-          value: 'ID',
-          sort: 'asc',
-          columnId: 'id',
-        },
-        'Titolo',
-        {
-          slot: 'th-user',
-          sort: 'asc',
-          columnId: 'user',
-        },
-        {
-          slot: 'th-tags',
-          sort: 'none',
-          columnId: 'tags',
-        },
-        {
-          slot: 'th-reactions',
-          sort: 'asc',
-          columnId: 'reactions',
-        },
-        'Azioni',
-      ],
-      tbody: [
-        {
-          field: 'id',
-          class: 'has-order',
-        },
-        'title',
-        {
-          field: 'userId',
-          class: 'has-order',
-        },
-        {
-          field: 'tags',
-          fn: (post: Post) => {
-            return post.tags?.join(', ')
-          },
-        },
-        {
-          field: 'reactions',
-          numeric: true,
-          class: 'has-order is-reaction',
-          slot: 'reactions',
-        },
-        {
-          slot: 'actions',
-          class: 'is-actions',
-        },
-      ],
       selectedRows: [] as number[],
-      page: page ? parseInt(page as string) : 1,
       currentLimit: limit,
       limit,
       total: 0,
+      page: page ? parseInt(page as string) : 1,
       search,
       source: [] as string[],
       user,
@@ -217,10 +136,12 @@ export default Vue.extend({
     const { q, user } = this.$route.query
 
     if (typeof q === 'string' && q) {
+      // Se c'è settata la ricerca, allora cambio l'url aggiungendo il parametro in GET
       noPostMessage = 'Nessun post trovato con la ricerca indicata'
       searchParams.set('q', q)
       url = new URL('./search', url)
     } else if (typeof user === 'string' && user) {
+      // Altrimenti cerco tutti i post associati ad un utente
       noPostMessage = "L'utente scelto non ha pubblicato alcun post"
       url = new URL(`./user/${user}`, url)
     }
@@ -278,30 +199,10 @@ export default Vue.extend({
     },
   },
   methods: {
-    getReactionIcon(count: number): string {
-      const reactions = [
-        '🤐',
-        '💩',
-        '😠',
-        '👎',
-        '🤔',
-        '👀',
-        '👍',
-        '🤣',
-        '🤩',
-        '💖',
-      ]
-      // return reactions[Math.floor(Math.random() * reactions.length)]
-
-      if (count >= reactions.length) {
-        count = reactions.length - 1
-      } else if (count < 0) {
-        count = 0
-      }
-
-      return reactions[count]
+    onSelectedRows(selectedRows: number[]): void {
+      this.selectedRows = selectedRows
     },
-    onPage(page: number): void {
+    onPageChange(page: number): void {
       this.$router.push({
         path: this.$route.path,
         query: { ...this.$route.query, page: page.toString() },
