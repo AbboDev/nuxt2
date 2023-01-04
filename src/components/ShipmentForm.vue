@@ -288,9 +288,7 @@ export default Vue.extend({
       if (!currentRegion) {
         this.$toast({
           message: 'La regione selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -338,9 +336,7 @@ export default Vue.extend({
       if (!currentProvince) {
         this.$toast({
           message: 'La provincia selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -374,9 +370,7 @@ export default Vue.extend({
       if (!cities.length) {
         this.$toast({
           message: 'Nessuna città trovata per la provincia selezionata',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         this.shipment.city = 0
 
@@ -395,9 +389,7 @@ export default Vue.extend({
       if (!currentCity) {
         this.$toast({
           message: 'La città selezionata non esiste',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -412,9 +404,7 @@ export default Vue.extend({
         this.$toast({
           message:
             'Credenziali non valide. Si prega di effettuare nuovamente il login',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
 
         return
@@ -428,9 +418,7 @@ export default Vue.extend({
 
           this.$toast({
             message: 'Registrazione avvenuta con successo!',
-            position: 'center',
             className: 'is-success',
-            timeoutMs: 3500,
           })
         })
         .catch((error: Error) => {
@@ -440,9 +428,7 @@ export default Vue.extend({
           this.$toast({
             message:
               'È avvenuto un errore durante la registrazione. Si prega di riprovare',
-            position: 'center',
             className: 'is-error',
-            timeoutMs: 3500,
           })
         })
     },
