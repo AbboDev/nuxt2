@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { mapState, mapGetters } from 'vuex'
-import Vue from 'vue';
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'LoginCard',

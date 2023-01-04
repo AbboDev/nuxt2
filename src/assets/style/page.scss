@@ -2,7 +2,7 @@
   padding: 30px;
 
   &__content {
-    max-width: 1280px;
+    width: clamp(300px, 70vw, 700px);
     margin: 0 auto;
   }
 }

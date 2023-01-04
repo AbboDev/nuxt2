@@ -18,6 +18,57 @@
 
       <UiDrawerContent>
         <UiNav>
+          <NuxtNavItem href="/">
+            Home
+            <template #after="{ iconClass }">
+              <UiIcon :class="iconClass">home</UiIcon>
+            </template>
+          </NuxtNavItem>
+
+          <template v-if="!isLoggedIn">
+            <NuxtNavItem href="/login">
+              Effettua il Login
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">login</UiIcon>
+              </template>
+            </NuxtNavItem>
+
+            <NuxtNavItem href="/registration">
+              Registrati ora!
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">person_add</UiIcon>
+              </template>
+            </NuxtNavItem>
+          </template>
+          <template v-else>
+            <NuxtNavItem href="/profile">
+              Vedi il tuo profilo
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">perm_identity</UiIcon>
+              </template>
+            </NuxtNavItem>
+            <NuxtNavItem href="/add-shipment">
+              Aggiungi un indirizzo di spedizione
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">local_shipping</UiIcon>
+              </template>
+            </NuxtNavItem>
+            <NuxtNavItem href="/posts">
+              Vedi gli ultimi articoli
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">feed</UiIcon>
+              </template>
+            </NuxtNavItem>
+            <NuxtNavItem href="/posts/new">
+              Crea un articolo
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">library_add</UiIcon>
+              </template>
+            </NuxtNavItem>
+          </template>
+
+          <UiDivider></UiDivider>
+
           <UiNavItem href="https://v2.vuejs.org/" target="_blank"
             >Vue.js <code>({{ vue }})</code></UiNavItem
           >
@@ -30,29 +81,6 @@
           <UiNavItem href="https://dummyjson.com/" target="_blank"
             >dummyJSON</UiNavItem
           >
-
-          <UiDivider></UiDivider>
-
-          <NuxtNavItem href="/">
-            Home
-            <template #after="{ iconClass }">
-              <UiIcon :class="iconClass">home</UiIcon>
-            </template>
-          </NuxtNavItem>
-
-          <NuxtNavItem href="/login">
-            Effettua il Login
-            <template #after="{ iconClass }">
-              <UiIcon :class="iconClass">login</UiIcon>
-            </template>
-          </NuxtNavItem>
-
-          <NuxtNavItem href="/registration">
-            Registrati ora!
-            <template #after="{ iconClass }">
-              <UiIcon :class="iconClass">person_add</UiIcon>
-            </template>
-          </NuxtNavItem>
         </UiNav>
       </UiDrawerContent>
     </UiDrawer>
@@ -72,6 +100,7 @@
 </template>
 
 <script lang="ts">
+import { mapGetters } from 'vuex'
 import Vue, { version as VueVersion } from 'vue'
 import { version as BalmUIVersion } from 'balm-ui'
 import { version as NuxtVersion } from 'nuxt/package.json'
@@ -93,6 +122,9 @@ export default Vue.extend({
         }
       },
     }
+  },
+  computed: {
+    ...mapGetters('account', ['isLoggedIn']),
   },
 })
 </script>
