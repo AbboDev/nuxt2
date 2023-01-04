@@ -7,7 +7,6 @@
 
     <h1 class="c-post__title">{{ post.title }}</h1>
 
-
     <div class="c-post__body">
       <div class="c-post__user"
         >Scritto dall'utente #{{ post.userId }}<UiIcon>face</UiIcon></div

@@ -5,9 +5,15 @@
       >Visualizza post</NuxtLink
     >
 
-    <h1>{{ post.title }} <small>(Modifica)</small></h1>
+    <h1>Modifica post #{{ post.id }}</h1>
 
-    <pre>{{ post }}</pre>
+    <PostForm
+      :title="post.title"
+      :body="post.body"
+      :tags="post.tags"
+      :reactions="post.reactions"
+      :post-id="post.id"
+    ></PostForm>
   </section>
 </template>
 
