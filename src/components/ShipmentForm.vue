@@ -255,7 +255,7 @@ export default Vue.extend({
       return zipCodes.map<UiSelectValue>((zip: string) => {
         return {
           value: zip,
-          label: zip
+          label: zip,
         }
       })
     },

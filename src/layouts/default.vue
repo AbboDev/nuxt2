@@ -97,7 +97,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapGetters('account', ['isLoggedIn'])
+    ...mapGetters('account', ['isLoggedIn']),
   },
   head() {
     return {
