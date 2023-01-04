@@ -1,12 +1,12 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { RootState } from './index'
 import {
   saveAccount,
   getToken,
   logout,
   saveToken,
   getAccount,
-} from '../utilities/account'
-import { RootState } from './index'
+} from '@/utilities/account'
 
 export const state = () => ({
   account: null as Account | null,

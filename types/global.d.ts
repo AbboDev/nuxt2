@@ -72,7 +72,7 @@ declare global {
     birthDate: string
   }
 
-  type CompleteRegisterResponse = LoginAccount & {
+  type UserResponse = LoginAccount & {
     maidenName: string
     age: null | number
     phone: string
@@ -93,5 +93,55 @@ declare global {
     ein: string
     ssn: string
     userAgent: string
+  }
+
+  type UiSelectValue = {
+    value: number | string
+    label: string
+    meta?: Record<string, any>
+  }
+
+  type Region = {
+    id: number
+    nome: string
+    latitudine: number
+    longitudine: number
+  }
+
+  type Province = {
+    nome: string
+    sigla: string
+    regionId: number
+  }
+
+  type ItalyIdentifier = {
+    nome: string
+    codice: string
+  }
+
+  type City = ItalyIdentifier & {
+    zona: ItalyIdentifier
+    regione: ItalyIdentifier
+    provincia: ItalyIdentifier
+    sigla: string
+    codiceCatastale: string
+    cap: string[]
+    popolazione: number
+  }
+
+  type Post = {
+    id: number
+    title: string
+    body: string
+    userId: number
+    tags?: string[]
+    reactions: number
+  }
+
+  type PostsPagination = {
+    posts: Post[]
+    total: number
+    skip: number
+    limit: number
   }
 }

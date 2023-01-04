@@ -34,8 +34,9 @@
 
 <script lang="ts">
 import { mapState, mapGetters } from 'vuex'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   name: 'LoginCard',
   computed: {
     ...mapState('account', ['account']),
@@ -48,7 +49,7 @@ export default {
       })
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

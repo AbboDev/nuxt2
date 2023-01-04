@@ -181,7 +181,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'RegisterForm',
   data() {
     const maxDate = new Date()
@@ -235,9 +237,7 @@ export default {
       if (data.password !== this.form.repeatPassword) {
         this.$toast({
           message: 'Password invalida',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         return
       }
@@ -245,20 +245,14 @@ export default {
       if (!data.birthDate) {
         this.$toast({
           message: 'La data di nascita è obbligatoria',
-          position: 'center',
           className: 'is-error',
-          timeoutMs: 3500,
         })
         return
       }
 
       this.$axios
-        .$post('https://dummyjson.com/users/add', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((registrationResponse: CompleteRegisterResponse) => {
+        .$post('https://dummyjson.com/users/add', data)
+        .then((registrationResponse: UserResponse) => {
           // const account: Account = {
           //   id: registrationResponse.id,
           //   username: registrationResponse.username,
@@ -281,9 +275,7 @@ export default {
 
           this.$toast({
             message: 'Registrazione avvenuta con successo!',
-            position: 'center',
             className: 'is-success',
-            timeoutMs: 3500,
           })
 
           this.$axios
@@ -307,9 +299,7 @@ export default {
               this.$toast({
                 message:
                   'È avvenuto un errore mentre veniva fatto il login. Si prega di riprovare',
-                position: 'center',
                 className: 'is-error',
-                timeoutMs: 3500,
               })
             })
         })
@@ -320,14 +310,12 @@ export default {
           this.$toast({
             message:
               'È avvenuto un errore durante la registrazione. Si prega di riprovare',
-            position: 'center',
             className: 'is-error',
-            timeoutMs: 3500,
           })
         })
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

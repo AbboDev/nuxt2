@@ -1,4 +1,6 @@
 export default {
+  srcDir: 'src/',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Test tecnico - Iliad',
@@ -16,13 +18,13 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios.ts',
+    '~/plugins/axios',
     {
       src: '@/plugins/balm-ui',
       mode: 'client',
     },
     {
-      src: '@/plugins/nuxtClientInit.ts',
+      src: '@/plugins/nuxtClientInit',
       mode: 'client',
     },
   ],
@@ -69,4 +71,12 @@ export default {
   },
 
   ssr: false,
+
+  watchers: {
+    webpack: {
+      ignored: /node_modules/,
+      aggregateTimeout: 300,
+      poll: 1000,
+    },
+  },
 }
