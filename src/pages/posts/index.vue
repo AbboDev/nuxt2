@@ -174,7 +174,7 @@ export default Vue.extend({
 
     const { posts, total, limit } = fetch
 
-    if (this.posts) {
+    if (posts.length === 0) {
       this.$toast({
         timeoutMs: 2000,
         message: isFetchingWithSearch
