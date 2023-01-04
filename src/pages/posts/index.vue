@@ -2,6 +2,8 @@
   <section>
     <h1>Tutti i post</h1>
 
+    {{ selectedRows }}
+
     <UiTable
       v-model="selectedRows"
       fullwidth
@@ -57,6 +59,7 @@
         v-if="total > 1"
         v-model="page"
         :total="total"
+        :page-size="limit"
         show-total
         @change="onPage"
       ></UiPagination>
@@ -70,16 +73,8 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'AllPostsPage',
   middleware: 'onlyLoggedIn',
-  async asyncData({ $axios }) {
-    const fetch = await $axios.$get('https://dummyjson.com/posts')
-
-    // TODO: creare tipo per destrutturare risultato
-    const posts: Post[] = fetch.posts
-    const total: number = fetch.total
-
-    return { posts, total }
-  },
   data() {
+    const page = this.$route.query?.page
     return {
       posts: [] as Post[],
       thead: [
@@ -134,10 +129,25 @@ export default Vue.extend({
         },
       ],
       selectedRows: [],
-      page: 1,
-      perPage: 1,
-      total: 12,
+      page: page ? parseInt(page as string) : 1,
+      limit: 30,
+      total: 0,
     }
+  },
+  async fetch(): Promise<void> {
+    const skip: number = this.limit * (this.page - 1)
+    const fetch = await this.$axios.$get<PostsPagination>(
+      `https://dummyjson.com/posts?limit=${this.limit}&skip=${skip}`
+    )
+
+    const { posts, total, limit } = fetch
+
+    this.posts = posts
+    this.total = total
+    this.limit = limit
+  },
+  watch: {
+    '$route.query': '$fetch',
   },
   methods: {
     getRandomReaction(): string {
@@ -146,7 +156,7 @@ export default Vue.extend({
       return reactions[Math.floor(Math.random() * reactions.length)]
     },
     onPage(page: number): void {
-      console.debug(page)
+      this.$router.push({ path: this.$route.path, query: { page: page.toString() } })
     },
     deletePost(post: Post): void {
       console.debug(post)

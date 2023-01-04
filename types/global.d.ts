@@ -137,4 +137,11 @@ declare global {
     tags?: string[]
     reactions: number
   }
+
+  type PostsPagination = {
+    posts: Post[]
+    total: number
+    skip: number
+    limit: number
+  }
 }
