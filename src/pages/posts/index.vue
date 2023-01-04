@@ -53,7 +53,7 @@
         v-if="total > 1"
         v-model="page"
         :total="total"
-        :page-size="limit"
+        :page-size="currentLimit"
         show-total
         @change="onPage"
       ></UiPagination>
@@ -69,6 +69,8 @@ export default Vue.extend({
   middleware: 'onlyLoggedIn',
   data() {
     const page = this.$route.query?.page
+    const limit: number = 30
+
     return {
       posts: [] as Post[],
       thead: [
@@ -124,7 +126,8 @@ export default Vue.extend({
       ],
       selectedRows: [],
       page: page ? parseInt(page as string) : 1,
-      limit: 30,
+      currentLimit: limit,
+      limit,
       total: 0,
     }
   },
@@ -138,6 +141,7 @@ export default Vue.extend({
 
     this.posts = posts
     this.total = total
+    this.currentLimit = limit
     this.limit = limit
   },
   watch: {
@@ -179,7 +183,30 @@ export default Vue.extend({
       })
     },
     deletePost(post: Post): void {
-      console.debug(post)
+      this.$axios
+        .$delete(`https://dummyjson.com/posts/${post.id}`)
+        .then(() => {
+          this.$toast({
+            message: 'Post eliminato con successo!',
+            className: 'is-success',
+          })
+
+          const index: number = this.posts.indexOf(post)
+          if (index > -1) {
+            this.posts.splice(index, 1)
+
+            --this.currentLimit
+          }
+        })
+        .catch((error: Error) => {
+          // eslint-disable-next-line no-console
+          console.error(error)
+          this.$toast({
+            message:
+              "È avvenuto un errore durante l'eliminazione del post. Riprova",
+            className: 'is-error',
+          })
+        })
     },
   },
 })
