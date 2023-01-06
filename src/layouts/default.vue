@@ -65,6 +65,12 @@
                 <UiIcon :class="iconClass">library_add</UiIcon>
               </template>
             </NuxtNavItem>
+            <LogoutNavItem>
+              Effettua il logout
+              <template #after="{ iconClass }">
+                <UiIcon :class="iconClass">logout</UiIcon>
+              </template>
+            </LogoutNavItem>
           </template>
 
           <UiDivider></UiDivider>
