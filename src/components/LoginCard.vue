@@ -19,7 +19,11 @@
       </div>
     </UiCardContent>
 
-    <UiListDivider></UiListDivider>
+    <UiDivider v-if="$slots.default"></UiDivider>
+
+    <slot></slot>
+
+    <UiDivider></UiDivider>
 
     <UiCardActions class="c-account__actions">
       <UiButton class="c-account__action" @click.prevent="doLogout">
