@@ -219,7 +219,7 @@ export default Vue.extend({
   },
   async fetch() {
     const regioni = await this.$axios
-      .get('http://localhost:3030/regions')
+      .get('/api/regions')
       .then<Region[]>(({ data }) => data)
 
     const regions: UiSelectValue[] = regioni.map((regione: Region) => {
