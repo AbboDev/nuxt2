@@ -19,6 +19,7 @@ const Axios: Plugin = ({ $axios, store }) => {
   $axios.onError((error: AxiosError) => {
     $toast({
       message: error.message,
+      className: 'is-error',
     })
   })
 }

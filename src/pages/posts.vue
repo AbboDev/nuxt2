@@ -1,7 +1,7 @@
 <template>
   <section class="o-page">
     <div class="o-page__content">
-      <NuxtLogo class="o-logo"></NuxtLogo>
+      <NuxtChild></NuxtChild>
     </div>
   </section>
 </template>
@@ -10,13 +10,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'IndexPage',
+  name: 'PostsPage',
+  middleware: 'onlyLoggedIn',
 })
 </script>
-
-<style lang="scss" scoped>
-.o-logo {
-  display: block;
-  margin: 0 auto;
-}
-</style>
