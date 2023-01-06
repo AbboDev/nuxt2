@@ -1,5 +1,7 @@
 <template>
   <form action="#" class="c-post-form" @submit.prevent="savePost">
+    <FormSpinner :active="loading"></FormSpinner>
+
     <UiForm type="|" item-margin-bottom="16">
       <template #default="{ itemClass, actionClass }">
         <UiFormField :class="itemClass">
@@ -70,7 +72,7 @@
         </UiFormField>
 
         <UiFormField :class="actionClass">
-          <UiButton native-type="submit" type="raised">{{
+          <UiButton :disabled="loading" native-type="submit" type="raised">{{
             isNew ? 'Salva' : 'Aggiorna'
           }}</UiButton>
         </UiFormField>
@@ -126,6 +128,7 @@ export default Vue.extend({
 
     return {
       currentTag: '',
+      loading: false,
       form,
     }
   },
@@ -194,6 +197,8 @@ export default Vue.extend({
         url = `https://dummyjson.com/posts/${this.postId}`
       }
 
+      this.loading = true
+
       this.$axios({
         url,
         method,
@@ -207,6 +212,9 @@ export default Vue.extend({
           // eslint-disable-next-line no-console
           console.error(error)
         })
+        .then(() => {
+          this.loading = false
+        })
     },
   },
 })
@@ -214,6 +222,8 @@ export default Vue.extend({
 
 <style lang="scss">
 .c-post-form {
+  position: relative;
+
   &__tags {
     display: flex;
     flex-wrap: nowrap;
