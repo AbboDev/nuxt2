@@ -14,7 +14,11 @@
     "lintfix": "prettier --write --list-different . && npm run lint:js -- --fix && npm run lint:style -- --fix",
     "prepare": "husky install",
     "test": "jest",
-    "server": "json-server --no-cors --port 3030 --watch ./server/db.json"
+    "server": "json-server --no-cors --port 3030 --watch ./server/db.json",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --cache",
@@ -58,6 +62,7 @@
     "prettier": "^2.7.1",
     "sass": "^1.57.1",
     "sass-loader": "^10.4.1",
+    "standard-version": "^9.5.0",
     "stylelint": "^14.13.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recommended-vue": "^1.4.0",
