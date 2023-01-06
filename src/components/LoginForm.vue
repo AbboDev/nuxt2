@@ -1,16 +1,18 @@
 <template>
   <form action="#" class="c-login" @submit.prevent="doLogin">
+    <FormSpinner :active="form.loading"></FormSpinner>
+
     <UiForm type="|" item-margin-bottom="16">
       <template #default="{ itemClass, subitemClass, actionClass }">
         <UiFormField :class="itemClass">
-          <UiTextfield v-model="form.username" input-type="text" outlined>
+          <UiTextfield v-model="form.data.username" input-type="text" outlined>
             Username
           </UiTextfield>
         </UiFormField>
 
         <UiFormField :class="itemClass">
           <UiTextfield
-            v-model="form.password"
+            v-model="form.data.password"
             outlined
             input-type="password"
             required
@@ -35,7 +37,7 @@
         </UiFormField>
 
         <UiFormField :class="actionClass">
-          <UiButton native-type="submit" type="raised">Effettua login</UiButton>
+          <UiButton :disabled="form.loading" native-type="submit" type="raised">Effettua login</UiButton>
         </UiFormField>
       </template>
     </UiForm>
@@ -52,18 +54,20 @@ export default Vue.extend({
   data() {
     return {
       form: {
-        username: '',
-        password: '',
+        data: {
+          username: '',
+          password: '',
+        },
         remember: false,
+        loading: false,
       },
     }
   },
   methods: {
     doLogin(): void {
-      const data = {
-        username: this.form.username,
-        password: this.form.password,
-      }
+      const data = this.form.data
+
+      this.form.loading = true
 
       this.$axios
         .$post('https://dummyjson.com/auth/login', data)
@@ -82,6 +86,9 @@ export default Vue.extend({
           // eslint-disable-next-line no-console
           console.error(error)
         })
+        .then(() => {
+          this.form.loading = false
+        })
     },
   },
 })
@@ -91,6 +98,7 @@ export default Vue.extend({
 .c-login {
   width: 350px;
   margin: 0 auto;
+  position: relative;
 
   .mdc-text-field {
     &,
