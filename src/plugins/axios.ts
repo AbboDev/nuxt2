@@ -1,7 +1,7 @@
 import { Plugin } from '@nuxt/types'
 import { AxiosError } from 'axios'
 import { useToast } from 'balm-ui'
-import { AccountState } from '~/store/account'
+import { AccountState } from '@/store/account'
 
 const $toast = useToast()
 

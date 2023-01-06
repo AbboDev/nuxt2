@@ -10,17 +10,10 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # copy the app, note .dockerignore
-COPY package*.json ./
-RUN npm install
+RUN npm install json-server -D
 
-COPY . .
-RUN npm run build
+COPY server ./server
 
-EXPOSE $PORT
+# EXPOSE 3030
 
-ENV PROXY_API=$PROXY_API
-
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=$PORT
-
-CMD [ "npm", "start" ]
+CMD [ "npx", "json-server", "--port", "3030", "--watch", "./server/db.json", "--host", "0.0.0.0" ]

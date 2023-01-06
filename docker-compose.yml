@@ -1,14 +1,17 @@
 services:
-  nuxt-app:
-    build:
-      dockerfile: ./.docker/build/Dockerfile
-    container_name: nuxt-app
-    restart: always
-    ports:
-      - '80:3000'
-    command: 'npm run start'
-    networks:
-      - nuxt-network
+  # nuxt-app:
+  #   build:
+  #     dockerfile: ./.docker/build/Dockerfile
+  #   container_name: nuxt-app
+  #   restart: always
+  #   ports:
+  #     - '80:80'
+  #   command: 'npm run start'
+  #   environment:
+  #     PORT: 80
+  #     PROXY_API: http://server:3030/
+  #   networks:
+  #     - nuxt-network
   nuxt-dev:
     build:
       dockerfile: ./.docker/dev/Dockerfile
@@ -17,8 +20,13 @@ services:
     ports:
       - '3000:3000'
     command: 'npm run dev'
+    environment:
+      PORT: 3000
+      PROXY_API: http://server:3030
     networks:
       - nuxt-network
+    depends_on:
+      - server
     volumes:
       - ./src:/app/src
       - ./test:/app/test
@@ -26,6 +34,18 @@ services:
       - ./tsconfig.json:/app/tsconfig.json
       - ./nuxt.config.js:/app/nuxt.config.js
       - exclude:/app/node_modules/
+  server:
+    build:
+      dockerfile: ./.docker/server/Dockerfile
+    container_name: server
+    restart: always
+    ports:
+      - '3030:3030'
+    # command: 'npx json-server --no-cors --port 3030 --watch ./server/db.json'
+    networks:
+      - nuxt-network
+    volumes:
+      - ./server:/app/server
 
 networks:
   nuxt-network:

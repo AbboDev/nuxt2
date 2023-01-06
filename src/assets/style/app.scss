@@ -17,3 +17,23 @@
     }
   }
 }
+
+@mixin correct-label() {
+  $this: &;
+
+  &#{$this}--focused {
+    &:not(#{$this}--disabled) {
+      .mdc-floating-label {
+        color: rgba(#00c675, 0.87);
+      }
+    }
+  }
+}
+
+.mdc-select {
+  @include correct-label;
+}
+
+.mdc-text-field {
+  @include correct-label;
+}

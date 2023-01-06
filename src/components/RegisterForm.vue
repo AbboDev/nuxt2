@@ -1,5 +1,7 @@
 <template>
   <form action="#" class="c-registration" @submit.prevent="register">
+    <FormSpinner :active="form.loading"></FormSpinner>
+
     <UiForm type="|">
       <template #default="{ itemClass, subitemClass, actionClass }">
         <UiGrid :style="columns">
@@ -208,6 +210,7 @@ export default Vue.extend({
             maxDate,
           },
         },
+        loading: false,
       },
       account: {
         email: '',
@@ -249,6 +252,8 @@ export default Vue.extend({
         })
         return
       }
+
+      this.form.loading = true
 
       this.$axios
         .$post('https://dummyjson.com/users/add', data)
@@ -302,10 +307,15 @@ export default Vue.extend({
                 className: 'is-error',
               })
             })
+            .then(() => {
+              this.form.loading = false
+            })
         })
         .catch((error: Error) => {
           // eslint-disable-next-line no-console
           console.error(error)
+
+          this.form.loading = false
 
           this.$toast({
             message:
@@ -322,6 +332,7 @@ export default Vue.extend({
 .c-registration {
   width: 480px;
   margin: 0 auto;
+  position: relative;
 
   .mdc-text-field {
     &,

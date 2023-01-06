@@ -1,5 +1,5 @@
 <template>
-  <UiCard class="c-account">
+  <UiCard v-if="account" class="c-account">
     <UiCardContent class="c-account__primary-action">
       <div class="c-account__main">
         <UiCardMedia
@@ -19,7 +19,11 @@
       </div>
     </UiCardContent>
 
-    <UiListDivider></UiListDivider>
+    <UiDivider v-if="$slots.default"></UiDivider>
+
+    <slot></slot>
+
+    <UiDivider></UiDivider>
 
     <UiCardActions class="c-account__actions">
       <UiButton class="c-account__action" @click.prevent="doLogout">
@@ -35,19 +39,14 @@
 <script lang="ts">
 import { mapState, mapGetters } from 'vuex'
 import Vue from 'vue'
+import Logout from '@/mixins/Logout';
 
 export default Vue.extend({
   name: 'LoginCard',
+  mixins: [Logout],
   computed: {
     ...mapState('account', ['account']),
     ...mapGetters('account', ['fullName']),
-  },
-  methods: {
-    doLogout(): void {
-      this.$store.dispatch('account/logout').then(() => {
-        this.$router.push('/login')
-      })
-    },
   },
 })
 </script>
