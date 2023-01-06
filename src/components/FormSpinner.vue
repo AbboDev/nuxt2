@@ -5,6 +5,9 @@
       'o-spinner': true,
       'is-visible': active,
     }"
+    :style="{
+      '--spinner-position': spinnerPosition,
+    }"
   ></UiSpinner>
 </template>
 
@@ -17,14 +20,24 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    position: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      spinnerPosition: this.position
+    }
   },
 })
 </script>
 
 <style lang="scss" scoped>
 .o-spinner {
-  position: absolute;
+  position: var(--spinner-position, absolute);
   inset: 50% 0 0 50%;
+  z-index: 10;
   transform: translate(-50%, -50%);
   transition-property: opacity, visibility;
   transition-duration: 350ms;
