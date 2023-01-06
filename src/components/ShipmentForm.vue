@@ -1,5 +1,7 @@
 <template>
   <form action="#" class="c-shipment" @submit.prevent="createShipmentAddress">
+    <FormSpinner :active="form.loading"></FormSpinner>
+
     <UiForm type="|">
       <template #default="{ itemClass, /* subitemClass,  */ actionClass }">
         <UiGrid :style="columns">
@@ -135,7 +137,7 @@
                 :options="zipCodes"
                 outlined
                 required
-                :disabled="zipCodes.length <= 0"
+                :disabled="zipCodes.length <= 1"
               >
                 CAP
               </UiSelect>
@@ -144,7 +146,10 @@
 
           <UiGridCell columns="12">
             <UiFormField :class="actionClass">
-              <UiButton native-type="submit" type="raised"
+              <UiButton
+                :disabled="form.loading"
+                native-type="submit"
+                type="raised"
                 >Salva il tuo indirizzo di spedizione
                 <template #after="{ iconClass }">
                   <UiIcon :class="iconClass">local_shipping</UiIcon>
@@ -201,6 +206,7 @@ export default Vue.extend({
         regions,
         provinces,
         cities,
+        loading: false,
       },
       shipment: {
         firstName,
@@ -410,6 +416,8 @@ export default Vue.extend({
         return
       }
 
+      this.form.loading = true
+
       this.$axios
         .$put(`https://dummyjson.com/users/${this.accountId}`, data)
         .then((registrationResponse: UserResponse) => {
@@ -431,6 +439,9 @@ export default Vue.extend({
             className: 'is-error',
           })
         })
+        .then(() => {
+          this.form.loading = false
+        })
     },
   },
 })
@@ -439,6 +450,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .c-shipment {
   width: 480px;
+  position: relative;
   margin: 0 auto;
 
   .mdc-select {

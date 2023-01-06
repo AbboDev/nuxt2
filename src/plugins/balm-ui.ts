@@ -23,7 +23,7 @@ Vue.use(BalmUI, {
     'on-primary': '#F2FDF9',
     // surface: '#001E26',
     // 'on-surface': '#F2FDF9',
-    background: '#001E26',
+    // background: '#001E26',
     secondary: '#99F1CD',
     'on-secondary': '#F2FDF9',
   },

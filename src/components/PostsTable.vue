@@ -1,48 +1,52 @@
 <template>
-  <UiTable
-    v-model="inner.selectedRows"
-    fullwidth
-    :data="posts"
-    :thead="thead"
-    :tbody="tbody"
-    row-checkbox
-    selected-key="id"
-    @selected="handleSelected"
-  >
-    <template #th-tags>
-      Tags
-      <UiIcon :style="{ marginLeft: '8px' }">style</UiIcon>
-    </template>
+  <div :style="{ position: 'relative', marginTop: '-48px' }">
+    <FormSpinner :active="loading" position="sticky"></FormSpinner>
 
-    <template #th-user>
-      <UiIcon v-tooltip="'Utente'" aria-describedby="th-user">face</UiIcon>
-    </template>
+    <UiTable
+      v-model="inner.selectedRows"
+      fullwidth
+      :data="posts"
+      :thead="thead"
+      :tbody="tbody"
+      row-checkbox
+      selected-key="id"
+      @selected="handleSelected"
+    >
+      <template #th-tags>
+        Tags
+        <UiIcon :style="{ marginLeft: '8px' }">style</UiIcon>
+      </template>
 
-    <template #th-reactions>
-      <UiIcon v-tooltip="'Reazioni ricevute'" aria-describedby="th-reactions">
-        add_reaction
-      </UiIcon>
-    </template>
+      <template #th-user>
+        <UiIcon v-tooltip="'Utente'" aria-describedby="th-user">face</UiIcon>
+      </template>
 
-    <template #reactions="{ data: post }">
-      <span v-badge.overlap="post.reactions">{{
-        getReactionIcon(post.reactions)
-      }}</span>
-    </template>
+      <template #th-reactions>
+        <UiIcon v-tooltip="'Reazioni ricevute'" aria-describedby="th-reactions">
+          add_reaction
+        </UiIcon>
+      </template>
 
-    <template #actions="{ data: post }">
-      <slot name="actions" :post="post"></slot>
-    </template>
+      <template #reactions="{ data: post }">
+        <span v-badge.overlap="post.reactions">{{
+          getReactionIcon(post.reactions)
+        }}</span>
+      </template>
 
-    <UiPagination
-      v-if="total > 1"
-      v-model="inner.page"
-      :total="total"
-      :page-size="currentLimit || 1"
-      show-total
-      @change="handlePageChange"
-    ></UiPagination>
-  </UiTable>
+      <template #actions="{ data: post }">
+        <slot name="actions" :post="post"></slot>
+      </template>
+
+      <UiPagination
+        v-if="total > 1"
+        v-model="inner.page"
+        :total="total"
+        :page-size="currentLimit || 1"
+        show-total
+        @change="handlePageChange"
+      ></UiPagination>
+    </UiTable>
+  </div>
 </template>
 
 <script lang="ts">
@@ -73,6 +77,10 @@ export default Vue.extend({
     total: {
       type: Number,
       default: 1,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
