@@ -1,68 +1,78 @@
-# iliad-interview
+# Test tecnico - Iliad
 
-## Build Setup
+## Comandi
 
 ```bash
-# install dependencies
+# Installa le dipendenze
 $ npm install
 
-# serve with hot reload at localhost:3000
+# Avvia Nuxt in modalità HMR sulla porta 3000
 $ npm run dev
 
-# build for production and launch server
+# Genera il sito statico
+$ npm run generate
+
+# Compila il sito ed avvia il server Node
 $ npm run build
 $ npm run start
 
-# generate static project
-$ npm run generate
+# Avvia il server JSON con le API per le regioni, le province e le città Italiane
+$ npm run server
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+## Dettagli
 
-## Special Directories
+L'applicativo si basa su Nuxt 2, Vue e Balm UI.
+La versione di Node impiegata è la 16.
+La versione utilizzata di Vue è la 2 tramite la Options API.
+È stato impiegato TypeScript, senza però l'impiego della libreria per i decoratori dei componenti Vue.
+Lo store manager impiegato è Vuex, essendo preinstallato in Nuxt 2.
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+### Note
 
-### `assets`
+È possibile usare Docker per lo sviluppo, principalmente per la costanza della versione di Node.
+Sarà necessario creare il container con il docker compose è poi lanciare solo i servizi nuxt-dev e server
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+Ad ogni commit verrà scansionato il codice con Eslint e Stylelint.
+A differenza della configurazione iniziale offerta da Nuxt, ho impostato che venga automaticamente sistemato da Prettier, anziché solo controllato
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+### Todo
 
-### `components`
+- Agganciare Netlify
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+## Task
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+- **Login** \*
+  Il login è stato sviluppato senza librerie, usando le Web Storage API per salvare il token e l'account ottenuto, così da mantenere l'accesso durante la navigazione del sito, il refresh della pagina e la chiusura del browser
+- **Registrazione utente (Nome, Cognome, Data nascita, Città nascita, Codice Fiscale, ecc.)** \*
+  La validazione dei campi è stata delegata principalmente ai componenti di Balm UI e al browser tramite gli attributi HTML.
+  Gli unici controlli applicati sono sull'uguaglianza dei due campi password e sulla presenza della data di nascita, non gestita dal rispettivo componente
+  L'invio alle fake API avviene con successo, ma si riceverà un errore via Toast siccome il login sarà impossibile, siccome l'utente non viene in realtà registrato
+- **Form indirizzo di spedizione** \*
+  Come per il task precedente, la validazione dei campi viene delegata ai campi nativi ed alla libreria.
+  Viene però impiegato un server basato su un JSON con tutte le regioni, le province e le città Italiane fino al 2022 (non sono riuscito a reperire API free).
+  Alla scelta della regione, vengono ricaricate le province, così come al cambio di provincia vengono caricate le città coi loro CAP.
+  È stata fatta una piccola operazione di memoizzazione per salvarsi tutte le regioni e poi le relative province e città scelte.
+  I campi già associati all'account vengono iniettati dallo store durante la creazione del componente
+- **Tabella con operazioni CRUD sugli elementi e ricerca server side** \*
+  Sono state create quattro pagine:
+  - una di **R**ead di tutti i posts, stampati in una tabella con paginazione
+    - all'interno di questa di potrà andare alla pagina di modifica o di visualizzazione
+    - si potrà effettuare per ciascun post la **D**elete asincrona
+    - si potrà fare la **D**elete di più articoli selezionandoli
+    - si può lanciare la ricerca **O** testuale sul titolo dell'articolo **OPPURE** sull'utente, ma non su entrambi (limite dettato dalle API esterne)
+  - una per la **R**ead del singolo post
+  - una per la **C**reate dei nuovi post (**NOTA:** al seguito della "creazione", si andrà alla 404 perché il componente fa il redirect verso la pagina di visualizzazione del nuovo articolo, che in realtà non esiste)
+  - una per l'**U**pdate degli articoli già esistenti
+- **Integrazione di un JavaScript Testing Framework e.g. JEST** (opzionale)
+  In corso d'opera.
+  Verrà impiegata la libreria [Vue Test Utils](https://v1.test-utils.vuejs.org/), basata su Jest
 
-### `layouts`
+## Riferimenti
 
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+- [Nuxt 2](https://nuxtjs.org/): Ho optato di usare la v2 piuttosto che la v3 per due motivi:
+  - quest'ultima è stata rilasciata la prima versione stabile il 16 Nov 2022, come [da questo articolo ufficiale](https://nuxt.com/v3)
+  - essendo la major release stata rilasciato quest'anno, è più probabile dover mettere mano a codice scritto con la v2 che con la v3
+- [Balm UI](https://v8.material.balmjs.com/#/): Ho optato per questa libreria piuttosto che quelle più famose (PrimeVue, Vuetify, quelle basate sui più comuni framework CSS) attirato dall'impiego del Material Design. Solo a sviluppi inoltrati, ho constatato una carenza di funzionalità in questa libreria.
+- [dummyJSON](https://dummyjson.com/): Fake API usata le operazioni di login, registrazione, spedizione e le operazioni sulla tabella CRUD
+- [Angular Commit Message Format](https://gist.github.com/brianclements/841ea7bffdb01346392c)
