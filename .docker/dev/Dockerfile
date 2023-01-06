@@ -28,9 +28,11 @@ COPY nuxt.config.js ./
 COPY stylelint.config.js ./
 COPY tsconfig.json ./
 
-EXPOSE 3000
+EXPOSE $PORT
+
+ENV PROXY_API=$PROXY_API
 
 ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
+ENV NUXT_PORT=$PORT
 
 CMD [ "npm", "run", "dev" ]
