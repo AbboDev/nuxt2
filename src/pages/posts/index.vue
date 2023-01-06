@@ -50,6 +50,7 @@
       :current-limit="currentLimit"
       :limit="limit"
       :total="total"
+      :loading="deletingAll || loading"
       @selected="onSelectedRows"
       @page-change="onPageChange"
     >
@@ -120,6 +121,8 @@ export default Vue.extend({
       user,
       users: [] as UiSelectValue[],
       debounce: undefined as undefined | number,
+      deletingAll: false,
+      loading: false,
     }
   },
   async fetch(): Promise<void> {
@@ -264,11 +267,21 @@ export default Vue.extend({
         this.selectedRows.includes(post.id)
       )
 
-      selectedPosts.forEach((post) => {
-        this.deletePost(post)
+      this.deletingAll = true
+
+      selectedPosts.forEach((post, index: number) => {
+        const deletePromise = this.deletePost(post)
+
+        if (index === selectedPosts.length - 1) {
+          deletePromise.then(() => {
+            this.deletingAll = false
+          })
+        }
       })
     },
     async deletePost(post: Post): Promise<void> {
+      this.loading = true
+
       try {
         await this.$axios.$delete(`https://dummyjson.com/posts/${post.id}`)
         this.$toast({
@@ -296,6 +309,8 @@ export default Vue.extend({
             "È avvenuto un errore durante l'eliminazione del post. Riprova",
           className: 'is-error',
         })
+      } finally {
+        this.loading = false
       }
     },
   },
