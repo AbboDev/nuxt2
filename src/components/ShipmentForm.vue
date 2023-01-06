@@ -135,7 +135,7 @@
                 :options="zipCodes"
                 outlined
                 required
-                :disabled="zipCodes.length <= 0"
+                :disabled="zipCodes.length <= 1"
               >
                 CAP
               </UiSelect>
