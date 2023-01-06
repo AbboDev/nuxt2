@@ -197,7 +197,7 @@ export default Vue.extend({
       this.$axios({
         url,
         method,
-        data
+        data,
       })
         .then((raw) => raw.data)
         .then((response: Post) => {

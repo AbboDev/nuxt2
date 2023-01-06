@@ -41,19 +41,20 @@ A differenza della configurazione iniziale offerta da Nuxt, ho impostato che ven
 - Agganciare Netlify
 
 ## Task
-- **Login** *
+
+- **Login** \*
   Il login è stato sviluppato senza librerie, usando le Web Storage API per salvare il token e l'account ottenuto, così da mantenere l'accesso durante la navigazione del sito, il refresh della pagina e la chiusura del browser
-- **Registrazione utente (Nome, Cognome, Data nascita, Città nascita, Codice Fiscale, ecc.)** *
+- **Registrazione utente (Nome, Cognome, Data nascita, Città nascita, Codice Fiscale, ecc.)** \*
   La validazione dei campi è stata delegata principalmente ai componenti di Balm UI e al browser tramite gli attributi HTML.
   Gli unici controlli applicati sono sull'uguaglianza dei due campi password e sulla presenza della data di nascita, non gestita dal rispettivo componente
   L'invio alle fake API avviene con successo, ma si riceverà un errore via Toast siccome il login sarà impossibile, siccome l'utente non viene in realtà registrato
-- **Form indirizzo di spedizione** *
+- **Form indirizzo di spedizione** \*
   Come per il task precedente, la validazione dei campi viene delegata ai campi nativi ed alla libreria.
   Viene però impiegato un server basato su un JSON con tutte le regioni, le province e le città Italiane fino al 2022 (non sono riuscito a reperire API free).
   Alla scelta della regione, vengono ricaricate le province, così come al cambio di provincia vengono caricate le città coi loro CAP.
   È stata fatta una piccola operazione di memoizzazione per salvarsi tutte le regioni e poi le relative province e città scelte.
   I campi già associati all'account vengono iniettati dallo store durante la creazione del componente
-- **Tabella con operazioni CRUD sugli elementi e ricerca server side** *
+- **Tabella con operazioni CRUD sugli elementi e ricerca server side** \*
   Sono state create quattro pagine:
   - una di **R**ead di tutti i posts, stampati in una tabella con paginazione
     - all'interno di questa di potrà andare alla pagina di modifica o di visualizzazione
@@ -68,6 +69,7 @@ A differenza della configurazione iniziale offerta da Nuxt, ho impostato che ven
   Verrà impiegata la libreria [Vue Test Utils](https://v1.test-utils.vuejs.org/), basata su Jest
 
 ## Riferimenti
+
 - [Nuxt 2](https://nuxtjs.org/): Ho optato di usare la v2 piuttosto che la v3 per due motivi:
   - quest'ultima è stata rilasciata la prima versione stabile il 16 Nov 2022, come [da questo articolo ufficiale](https://nuxt.com/v3)
   - essendo la major release stata rilasciato quest'anno, è più probabile dover mettere mano a codice scritto con la v2 che con la v3

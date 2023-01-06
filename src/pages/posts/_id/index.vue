@@ -81,7 +81,7 @@ export default Vue.extend({
             className: 'is-error',
           })
         })
-    }
+    },
   },
 })
 </script>
