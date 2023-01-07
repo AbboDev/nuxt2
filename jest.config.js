@@ -1,3 +1,5 @@
+// https://test-utils.nuxtjs.org/
+
 module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -16,4 +18,5 @@ module.exports = {
     '<rootDir>/src/pages/**/*.vue',
   ],
   testEnvironment: 'jsdom',
+  transformIgnorePatterns: ['node_modules/(?!balm-ui)'],
 }
