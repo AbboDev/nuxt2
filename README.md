@@ -31,14 +31,17 @@ Lo store manager impiegato è Vuex, essendo preinstallato in Nuxt 2.
 ### Note
 
 È possibile usare Docker per lo sviluppo, principalmente per la costanza della versione di Node.
-Sarà necessario creare il container con il docker compose è poi lanciare solo i servizi nuxt-dev e server
+Sarà necessario creare il container con il docker compose è poi lanciare solo i servizi `nuxt-dev` e `server`
 
 Ad ogni commit verrà scansionato il codice con Eslint e Stylelint.
 A differenza della configurazione iniziale offerta da Nuxt, ho impostato che venga automaticamente sistemato da Prettier, anziché solo controllato
 
+L'applicazione è stata sviluppata per funzionare senza server, siccome l'idea era di caricarla su un ambiente privo di NodeJS
+Di conseguenza, i compilati statici non permettono il server side rendering, siccome sono presenti più sezioni dinamiche
+
 ### Todo
 
-- Agganciare Netlify
+- ~~Agganciare Netlify~~: [https://nuxt-2-test.netlify.app/](https://nuxt-2-test.netlify.app/)
 
 ## Task
 
