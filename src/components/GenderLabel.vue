@@ -1,7 +1,7 @@
 <template>
   <span :class="['o-gender', `o-gender--${gender.toLowerCase()}`]">
     <span>
-      <slot>{{ gender[0].toUpperCase() + gender.substring(1) }}</slot>
+      <slot>{{ defaultCase }}</slot>
     </span>
     <UiIcon class="o-gender__symbol">{{ gender.toLowerCase() }}</UiIcon>
   </span>
@@ -18,6 +18,11 @@ export default Vue.extend({
       type: String,
     },
   },
+  computed: {
+    defaultCase() {
+      return this.gender[0].toUpperCase() + this.gender.substring(1)
+    }
+  }
 })
 </script>
 
