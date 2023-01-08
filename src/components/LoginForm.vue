@@ -37,7 +37,9 @@
         </UiFormField>
 
         <UiFormField :class="actionClass">
-          <UiButton :disabled="form.loading" native-type="submit" type="raised">Effettua login</UiButton>
+          <UiButton :disabled="form.loading" native-type="submit" type="raised"
+            >Effettua login</UiButton
+          >
         </UiFormField>
       </template>
     </UiForm>

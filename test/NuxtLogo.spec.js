@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import NuxtLogo from '@/components/NuxtLogo.vue'
 
 describe('NuxtLogo', () => {
-  let wrapper;
+  let wrapper
 
   beforeEach(() => {
     wrapper = mount(NuxtLogo)

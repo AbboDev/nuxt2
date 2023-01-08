@@ -39,7 +39,7 @@
 <script lang="ts">
 import { mapState, mapGetters } from 'vuex'
 import Vue from 'vue'
-import Logout from '@/mixins/Logout';
+import Logout from '@/mixins/Logout'
 
 export default Vue.extend({
   name: 'LoginCard',
