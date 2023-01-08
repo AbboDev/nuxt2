@@ -18,7 +18,7 @@ COPY src ./src
 COPY test ./test
 COPY types ./types
 
-COPY .babelrc ./
+COPY babel.config.js ./
 COPY .editorconfig ./
 COPY .eslintrc.js ./
 COPY .prettierignore ./
