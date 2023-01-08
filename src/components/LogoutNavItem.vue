@@ -14,7 +14,7 @@
 
 <script>
 import UiItem from 'balm-ui/src/scripts/components/list/item.vue'
-import { UI_ITEM } from 'balm-ui/src/scripts/components/list/constants';
+import { UI_ITEM } from 'balm-ui/src/scripts/components/list/constants'
 import Vue from 'vue'
 import Logout from '@/mixins/Logout'
 
@@ -25,8 +25,8 @@ export default Vue.extend({
   methods: {
     handleClick(event) {
       this.doLogout()
-      this.$emit(UI_ITEM.EVENT.CLICK, event);
-    }
-  }
+      this.$emit(UI_ITEM.EVENT.CLICK, event)
+    },
+  },
 })
 </script>

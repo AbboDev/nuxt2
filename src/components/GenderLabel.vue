@@ -21,8 +21,8 @@ export default Vue.extend({
   computed: {
     defaultCase() {
       return this.gender[0].toUpperCase() + this.gender.substring(1)
-    }
-  }
+    },
+  },
 })
 </script>
 

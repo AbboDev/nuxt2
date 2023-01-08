@@ -27,7 +27,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      spinnerPosition: this.position
+      spinnerPosition: this.position,
     }
   },
 })
@@ -41,7 +41,7 @@ export default Vue.extend({
   transform: translate(-50%, -50%);
   transition-property: opacity, visibility;
   transition-duration: 350ms;
-  transition-timing-function: cubic-bezier(.79,.5,1,.46);
+  transition-timing-function: cubic-bezier(0.79, 0.5, 1, 0.46);
   opacity: 0;
   visibility: hidden;
 
