@@ -1,4 +1,4 @@
-# Test tecnico - Iliad
+# Test tecnico - Nuxt 2
 
 ## Comandi
 
